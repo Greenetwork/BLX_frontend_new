@@ -3,6 +3,7 @@ import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
+import { base64ToArray } from './helpers.js';
 
 const argIsOptional = (arg) =>
   arg.type.toString().startsWith('Option<');
@@ -126,7 +127,13 @@ function Main (props) {
         // Input parameter updated
         const { ind, paramField: { type } } = state;
         const inputParams = [...formState.inputParams];
-        inputParams[ind] = { type, value };
+
+        const parsedValue = type === '[u8;32]' ? base64ToArray(value) : value;
+        console.log(parsedValue);
+        inputParams[ind] = {
+            type,
+            value: parsedValue
+        };
         res = { ...formState, inputParams };
       } else if (state === 'palletRpc') {
         res = { ...formState, [state]: value, callable: '', inputParams: [] };
@@ -135,6 +142,10 @@ function Main (props) {
       }
       return res;
     });
+  };
+
+  const handleSubmit = (ev, data) => {
+    // TODO: This is where we need to convert string values that should be sent as binary to a TypedArray of some kind
   };
 
   const onInterxTypeChange = (ev, data) => {
@@ -151,7 +162,7 @@ function Main (props) {
   return (
     <Grid.Column width={8}>
       <h1>Pallet Interactor</h1>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group style={{ overflowX: 'auto' }} inline>
           <label>Interaction Type</label>
           <Form.Radio

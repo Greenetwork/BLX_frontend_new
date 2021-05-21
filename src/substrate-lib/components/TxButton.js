@@ -163,6 +163,8 @@ function TxButton ({
         return inputParam.value.trim();
       } else if (typeof inputParam === 'string') {
         return inputParam.trim();
+      } else if (inputParam && inputParam.value instanceof Object.getPrototypeOf(Uint8Array)) {
+        return inputParam.value;
       }
       return inputParam;
     });
@@ -191,8 +193,12 @@ function TxButton ({
     }, []);
   };
 
-  const isNumType = type =>
-    utils.paramConversion.num.some(el => type.indexOf(el) >= 0);
+  const isNumType = type => {
+    // TODO: make this more robust
+    // work around the lack of support for TypedArrays
+    if (type === '[u8;32]') return false;
+    return utils.paramConversion.num.some(el => type.indexOf(el) >= 0);
+  };
 
   const allParamsFilled = () => {
     if (paramFields.length === 0) { return true; }
