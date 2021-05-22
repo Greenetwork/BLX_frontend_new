@@ -159,6 +159,10 @@ function Main (props) {
     });
   };
 
+  const afterSubmit = () => {
+    setFormState(initFormState);
+  };
+
   const onInterxTypeChange = (ev, data) => {
     setInterxType(data.value);
     // clear the formState
@@ -257,6 +261,7 @@ function Main (props) {
           <InteractorSubmit
             accountPair={accountPair}
             setStatus={setStatus}
+            afterSubmit={afterSubmit}
             attrs={{ interxType, palletRpc, callable, inputParams, paramFields }}
           />
         </Form.Field>

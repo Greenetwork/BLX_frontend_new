@@ -10,6 +10,7 @@ function TxButton ({
   accountPair = null,
   label,
   setStatus,
+  afterSubmit,
   color = 'blue',
   style = null,
   type = 'QUERY',
@@ -138,6 +139,7 @@ function TxButton ({
   };
 
   const transaction = async () => {
+    console.log(arguments);
     if (unsub) {
       unsub();
       setUnsub(null);
@@ -145,13 +147,23 @@ function TxButton ({
 
     setStatus('Sending...');
 
-    (isSudo() && sudoTx()) ||
-    (isUncheckedSudo() && uncheckedSudoTx()) ||
-    (isSigned() && signedTx()) ||
-    (isUnsigned() && unsignedTx()) ||
-    (isQuery() && query()) ||
-    (isRpc() && rpc()) ||
-    (isConstant() && constant());
+    if (isSudo()) {
+      await sudoTx();
+    } else if (isUncheckedSudo()) {
+      await uncheckedSudoTx();
+    } else if (isSigned()) {
+      await signedTx();
+    } else if (isUnsigned()) {
+      await unsignedTx();
+    } else if (isQuery()) {
+      await query();
+    } else if (isRpc()) {
+      await rpc()
+    } else if (isConstant()) {
+      await constant();
+    }
+
+    if (typeof afterSubmit === 'function') afterSubmit();
   };
 
   const transformParams = (paramFields, inputParams, opts = { emptyAsNull: true }) => {
@@ -237,6 +249,7 @@ function TxButton ({
 TxButton.propTypes = {
   accountPair: PropTypes.object,
   setStatus: PropTypes.func.isRequired,
+  afterSubmit: PropTypes.func,
   type: PropTypes.oneOf([
     'QUERY', 'RPC', 'SIGNED-TX', 'UNSIGNED-TX', 'SUDO-TX', 'UNCHECKED-SUDO-TX',
     'CONSTANT']).isRequired,
