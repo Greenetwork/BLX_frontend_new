@@ -14,8 +14,11 @@ import Metadata from './Metadata';
 import NodeInfo from './NodeInfo';
 import TemplateModule from './TemplateModule';
 import Transfer from './Transfer';
-import Upgrade from './Upgrade';
-import BLX from './BLX';
+//import Upgrade from './Upgrade';
+import { ApnTokenInfo } from './ApnTokenInfo';
+import LeafletMap from './LeafletMap';
+import GeoJsonMap from './GeoJsonMap';
+
 
 function Main () {
   const [accountAddress, setAccountAddress] = useState(null);
@@ -35,7 +38,7 @@ function Main () {
       <Grid.Column>
         <Message negative compact floating
           header='Error Connecting to Substrate'
-          content={`${JSON.stringify(err, null, 4)}`}
+          content={`${err}`}
         />
       </Grid.Column>
     </Grid>;
@@ -48,6 +51,10 @@ function Main () {
   }
 
   const contextRef = createRef();
+  //const position = [this.state.lat, this.state.lng]
+  const position = [51.505, -0.09]
+
+
 
   return (
     <div ref={contextRef}>
@@ -63,18 +70,14 @@ function Main () {
             <BlockNumber finalized />
           </Grid.Row>
           <Grid.Row stretched>
-            <Balances />
-          </Grid.Row>
-          <Grid.Row>
-            <Transfer accountPair={accountPair} />
-            <Upgrade accountPair={accountPair} />
+            <GeoJsonMap />
           </Grid.Row>
           <Grid.Row>
             <Interactor accountPair={accountPair} />
             <Events />
           </Grid.Row>
           <Grid.Row>
-            <BLX accountPair={accountPair} />
+            <TemplateModule accountPair={accountPair} />
           </Grid.Row>
         </Grid>
       </Container>
