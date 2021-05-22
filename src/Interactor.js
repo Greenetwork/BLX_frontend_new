@@ -128,11 +128,9 @@ function Main (props) {
         const { ind, paramField: { type } } = state;
         const inputParams = [...formState.inputParams];
 
-        const parsedValue = type === '[u8;32]' ? base64ToArray(value) : value;
-        console.log(parsedValue);
         inputParams[ind] = {
             type,
-            value: parsedValue
+            value
         };
         res = { ...formState, inputParams };
       } else if (state === 'palletRpc') {
@@ -146,6 +144,19 @@ function Main (props) {
 
   const handleSubmit = (ev, data) => {
     // TODO: This is where we need to convert string values that should be sent as binary to a TypedArray of some kind
+    setFormState(formState => {
+      const inputParams = [...formState.inputParams];
+
+      for (let i = 0; i < inputParams.length; i++) {
+        const param = inputParams[i];
+        const type = param.type;
+        const value = param.value;
+        const parsedValue = type === '[u8;32]' ? base64ToArray(value) : value;
+        param.value = parsedValue;
+      }
+
+      return { ...formState, inputParams };
+    });
   };
 
   const onInterxTypeChange = (ev, data) => {
