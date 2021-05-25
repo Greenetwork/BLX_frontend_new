@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer as Map, TileLayer, GeoJSON } from 'react-leaflet';
 
 import parcel_info from './assets/18102019.json';
 
