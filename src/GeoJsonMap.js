@@ -1,8 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Grid } from 'semantic-ui-react';
 import { MapContainer as Map, TileLayer, GeoJSON } from 'react-leaflet';
 
+import ApnFinder from './ApnFinder';
 import parcel_info from './assets/18102019.json';
 
 
@@ -36,17 +38,22 @@ export default class geoJSON extends Component<{}, State> {
   render() {
     const position = [this.state.lat, this.state.lng]
     return (
-      <Map center={position} zoom={this.state.zoom}>
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <GeoJSON
-          data={parcel_info}
-          style={this.geoJSONStyle}
-          onEachFeature={this.onEachFeature}
-        />
-      </Map>
+      <div style={{width: '100%'}}>
+        <Map center={position} zoom={this.state.zoom}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <GeoJSON
+            data={parcel_info}
+            style={this.geoJSONStyle}
+            onEachFeature={this.onEachFeature}
+          />
+        </Map>
+        <Grid.Row>
+          <ApnFinder />
+        </Grid.Row>
+      </div>
     )
   }
 };
