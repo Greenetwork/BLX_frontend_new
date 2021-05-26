@@ -69,9 +69,7 @@ function Main () {
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
-          <Grid.Row stretched>
-            <GeoJsonMap />
-          </Grid.Row>
+          <GeoJsonMap />
           <Grid.Row>
             <Interactor accountPair={accountPair} />
             <Events />

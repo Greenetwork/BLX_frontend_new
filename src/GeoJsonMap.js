@@ -1,59 +1,66 @@
 // @flow
-
-import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
-import { MapContainer as Map, TileLayer, GeoJSON } from 'react-leaflet';
+import { useState } from 'react';
+import { MapContainer } from 'react-leaflet';
 
 import ApnFinder from './ApnFinder';
-import parcel_info from './assets/18102019.json';
+import ApnMap from './ApnMap';
+import initParcelInfo from './assets/emptymap.js';
 
 
-export default class geoJSON extends Component<{}, State> {
-  state = {
-    lat: 37.975438, 
-    lng: -121.274070,
-    zoom: 12,
-  }
+function Main () {
 
-  geoJSONStyle() {
-    return {
-      color: '#1f2021',
-      weight: 1,
-      fillOpacity: 0.5,
-      fillColor: '#fff2af',
+  const [mapCenter, setMapCenter] = useState({lat: 37.975438, lng: -121.274070});
+  const [mapZoom, setMapZoom] = useState(12);
+  const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
+
+  const updateParcel = function (data) {
+    const coords = parsePolygon(data.geometry);
+    setMapCenter({
+      lat: coords[0][1],
+      lng: coords[0][0]
+    });
+    setMapZoom(17);
+
+    setParcelInfo(parcelInfo => {
+      const features = [{
+        type: 'Feature',
+        properties: data,
+        geometry: {
+          type: 'Polygon',
+          coordinates: [coords]
+        }
+      }];
+
+      return {...parcelInfo, features};
+    });
+
+  };
+
+  const parsePolygon = function (geometryStr) {
+    if (geometryStr.indexOf('POLYGON((') === 0) {
+      geometryStr = geometryStr.slice('POLYGON(('.length);
     }
-  }
+    if (geometryStr.indexOf('))') === (geometryStr.length - 2)) {
+      geometryStr = geometryStr.slice(0, -2);
+    }
 
-  onEachFeature(feature: Object, layer: Object) {
-    const popupContent = ` <Popup><p>ApnToken Information</p><pre>Assessor's Parcel Number: <br />${feature.properties.apn}</pre>
-    <pre>Parcel Area: <br />${feature.properties.shape_area}</pre>
-    <pre>Parcel Area: <br />${feature.properties.agencyname}</pre>
-    <pre>Parcel Area: <br />${feature.properties.agencyuniqueid}</pre>
-    <pre>Parcel Area: <br />${feature.properties.county}</pre>
-    <pre>Parcel Area: <br />${feature.properties.acres}</pre>
-    <pre>Parcel Area: <br />${feature.properties.crop2016}</pre></Popup>`
-    layer.bindPopup(popupContent)
-  }
+    return geometryStr.split(',').map(coordSet => coordSet.split(' ').map(val => Number(val.trim())));
+  };
 
-  render() {
-    const position = [this.state.lat, this.state.lng]
-    return (
-      <div style={{width: '100%'}}>
-        <Map center={position} zoom={this.state.zoom}>
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <GeoJSON
-            data={parcel_info}
-            style={this.geoJSONStyle}
-            onEachFeature={this.onEachFeature}
-          />
-        </Map>
-        <Grid.Row>
-          <ApnFinder />
-        </Grid.Row>
-      </div>
-    )
-  }
+  const position = [37.975438, -121.274070];
+  return (
+    <div style={{width: '100%'}}>
+      <MapContainer center={position} zoom={12} style={{minHeight: '44rem'}}>
+        <ApnMap mapCenter={mapCenter} mapZoom={mapZoom} parcelInfo={parcelInfo} />
+      </MapContainer>
+      <ApnFinder apnFound={updateParcel} />
+    </div>
+  );
+
+};
+
+export default function GeoJsonMap(props) {
+  return (
+    <Main {...props} />
+  );
 };
