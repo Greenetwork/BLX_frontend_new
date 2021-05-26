@@ -7,29 +7,29 @@ import ApnMap from './ApnMap';
 import initParcelInfo from './assets/emptymap.js';
 
 
-function Main () {
+function Main (props) {
 
   const [mapCenter, setMapCenter] = useState({lat: 37.975438, lng: -121.274070});
   const [mapZoom, setMapZoom] = useState(12);
   const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
 
   const updateParcel = function (data) {
-    const coords = parsePolygon(data.geometry);
+    const coords = data ? parsePolygon(data.geometry) : [[-121.274070, 37.975438]];
     setMapCenter({
       lat: coords[0][1],
       lng: coords[0][0]
     });
-    setMapZoom(17);
+    setMapZoom(data ? 17 : 12);
 
     setParcelInfo(parcelInfo => {
-      const features = [{
+      const features = data ? [{
         type: 'Feature',
         properties: data,
         geometry: {
           type: 'Polygon',
           coordinates: [coords]
         }
-      }];
+      }] : [];
 
       return {...parcelInfo, features};
     });
@@ -53,7 +53,7 @@ function Main () {
       <MapContainer center={position} zoom={12} style={{minHeight: '44rem'}}>
         <ApnMap mapCenter={mapCenter} mapZoom={mapZoom} parcelInfo={parcelInfo} />
       </MapContainer>
-      <ApnFinder apnFound={updateParcel} />
+      <ApnFinder apnFound={ updateParcel } {...props} />
     </div>
   );
 

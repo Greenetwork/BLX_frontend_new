@@ -44,7 +44,7 @@ function Main (props) {
           </Form>
         </Grid.Column>
         <Grid.Column width={4}>
-          <ApnConfirmer apnData={ apnData } />
+          <ApnConfirmer apnData={ apnData } {...props} />
         </Grid.Column>
       </Grid.Row>
     );
