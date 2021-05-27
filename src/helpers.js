@@ -1,5 +1,6 @@
 
 export function base64ToArray(value) {
+  if (value === void 0) value = '';
   // convert user input string to all characters that can be base64 encoded
   const codeUnits = new Uint16Array(value.length);
   for (let i = 0; i < codeUnits.length; i++) {

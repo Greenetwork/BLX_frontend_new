@@ -1,12 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
 import { base64ToArray } from './helpers.js';
 
+const initInputParams = [
+  {type: 'ProxyType', value: 'Any'},
+  {type: 'BlockNumber', value: '0'},
+  {type: 'u16', value: '0'},
+  {type: '[u8;32]', value: ''}
+];
 
 function Main (props) {
   const apnData = props.apnData;
   const [status, setStatus] = useState(null);
+
+  const [inputParams, setInputParams] = useState([...initInputParams]);
+
+  useEffect(function () {
+    if (!apnData) return;
+
+    const inputParams = [...initInputParams];
+    inputParams[3].value = base64ToArray((apnData.apn && apnData.apn.toString()) || '');
+    setInputParams(inputParams);
+  }, [apnData]);
 
   const formatResults = function (apnData) {
     if (apnData === void 0) apnData = null;
@@ -17,33 +33,27 @@ function Main (props) {
   return (
     <Grid.Column width={4}>
       <h1>APN Results</h1>
-      { apnData
-        ? <TxButton
-          label='Claim This APN'
-          type='SIGNED-TX'
-          color='blue'
-          interxType='EXTRINSIC'
-          setStatus={setStatus}
-          attrs={{
-            palletRpc: 'claimer',
-            callable: 'createApnAccount',
-            inputParams: [
-              {type: 'ProxyType', value: 'Any'},
-              {type: 'BlockNumber', value: '0'},
-              {type: 'u16', value: '0'},
-              {type: '[u8;32]', value: base64ToArray(apnData.apn)}
-            ],
-            paramFields: [
-              {name: 'proxy_type', type: 'ProxyType', optional: false},
-              {name: 'delay', type: 'BlockNumber', optional: false},
-              {name: 'index', type: 'u16', optional: false},
-              {name: 'apn_value', type: '[u8;32]', optional: false}
-            ]
-          }}
-          {...props}
-        />
-        : null
-      }
+      { (apnData && apnData.apn)
+      ? <TxButton
+        label='Claim This APN'
+        type='SIGNED-TX'
+        color='blue'
+        interxType='EXTRINSIC'
+        setStatus={setStatus}
+        attrs={{
+          palletRpc: 'claimer',
+          callable: 'createApnAccount',
+          inputParams: inputParams,
+          paramFields: [
+            {name: 'proxy_type', type: 'ProxyType', optional: false},
+            {name: 'delay', type: 'BlockNumber', optional: false},
+            {name: 'index', type: 'u16', optional: false},
+            {name: 'apn_value', type: '[u8;32]', optional: false}
+          ]
+        }}
+        {...props}
+      />
+      : null }
       <div key={ apnData }>
         <pre>
           { formatResults(apnData) }

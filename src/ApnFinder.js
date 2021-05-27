@@ -4,7 +4,7 @@ import ApnConfirmer from './ApnConfirmer';
 
 function Main (props) {
     const [apn, setApn] = useState('');
-    const [apnData, setApnData] = useState('');
+    const [apnData, setApnData] = useState({});
 
     const handleSubmit = async function () {
       const res = await fetch('/apn/' + apn);
@@ -44,7 +44,7 @@ function Main (props) {
           </Form>
         </Grid.Column>
         <Grid.Column width={4}>
-          <ApnConfirmer apnData={ apnData } {...props} />
+          <ApnConfirmer key={ apn } apnData={ apnData } {...props} />
         </Grid.Column>
       </Grid.Row>
     );
