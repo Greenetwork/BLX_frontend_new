@@ -3,16 +3,7 @@ import { Form, Input, Grid } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton } from './substrate-lib/components';
-
-function base64ToArray(base64) {
-  var binary_string = window.atob(base64);
-  var len = binary_string.length;
-  var bytes = new Uint8Array(len);
-  for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
-  }
-  return bytes;
-}
+import { base64ToArray } from './helpers.js';
 
 function Main (props) {
     const { api } = useSubstrate();
@@ -37,9 +28,7 @@ function Main (props) {
     const onChangeCm = (_, data) =>
       setFormState(prev => ({ ...prev, [data.state]: base64ToArray(data.value)}));
   
-    const {
-        // amount, k, s, 
-        cm} = formState;
+    const {/* amount, k, s, */ cm } = formState;
   
     return (
       <Grid.Column width={8}>

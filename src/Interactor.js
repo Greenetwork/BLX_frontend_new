@@ -3,6 +3,7 @@ import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
+import { base64ToArray } from './helpers.js';
 
 const argIsOptional = (arg) =>
   arg.type.toString().startsWith('Option<');
@@ -126,7 +127,11 @@ function Main (props) {
         // Input parameter updated
         const { ind, paramField: { type } } = state;
         const inputParams = [...formState.inputParams];
-        inputParams[ind] = { type, value };
+
+        inputParams[ind] = {
+            type,
+            value
+        };
         res = { ...formState, inputParams };
       } else if (state === 'palletRpc') {
         res = { ...formState, [state]: value, callable: '', inputParams: [] };
@@ -135,6 +140,27 @@ function Main (props) {
       }
       return res;
     });
+  };
+
+  const handleSubmit = (ev, data) => {
+    // TODO: This is where we need to convert string values that should be sent as binary to a TypedArray of some kind
+    setFormState(formState => {
+      const inputParams = [...formState.inputParams];
+
+      for (let i = 0; i < inputParams.length; i++) {
+        const param = inputParams[i];
+        const type = param.type;
+        const value = param.value;
+        const parsedValue = type === '[u8;32]' ? base64ToArray(value) : value;
+        param.value = parsedValue;
+      }
+
+      return { ...formState, inputParams };
+    });
+  };
+
+  const afterSubmit = () => {
+    setFormState(initFormState);
   };
 
   const onInterxTypeChange = (ev, data) => {
@@ -151,7 +177,7 @@ function Main (props) {
   return (
     <Grid.Column width={8}>
       <h1>Pallet Interactor</h1>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group style={{ overflowX: 'auto' }} inline>
           <label>Interaction Type</label>
           <Form.Radio
@@ -235,6 +261,7 @@ function Main (props) {
           <InteractorSubmit
             accountPair={accountPair}
             setStatus={setStatus}
+            afterSubmit={afterSubmit}
             attrs={{ interxType, palletRpc, callable, inputParams, paramFields }}
           />
         </Form.Field>
