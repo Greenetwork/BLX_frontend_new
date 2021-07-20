@@ -15,6 +15,7 @@
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build -m '[ci skip] Updates'"
   },
+  "proxy": "http://164.90.155.116:8000/",
   "dependencies": {
     "@polkadot/api": "^3.9.3",
     "@polkadot/extension-dapp": "^0.37.1",
@@ -25,11 +26,13 @@
     "@polkadot/ui-settings": "^0.69.1",
     "@polkadot/util": "^5.6.3",
     "@polkadot/util-crypto": "^5.6.3",
+    "leaflet": "^1.6.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.5",
     "react": "^16.14.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.14.0",
+    "react-leaflet": "^3.2.0",
     "react-scripts": "^4.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3"
@@ -60,18 +63,11 @@
     "node": ">=12",
     "npm": ">=6"
   },
-  "browserslist": {
-    "production": [
+  "browserslist": [
       ">0.2%",
       "not dead",
       "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  ],
   "homepage": "https://substrate-developer-hub.github.io/substrate-front-end-template",
   "bugs": {
     "url": "https://github.com/substrate-developer-hub/substrate-front-end-template/issues"
