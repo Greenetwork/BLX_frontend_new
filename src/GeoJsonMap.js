@@ -56,7 +56,7 @@ function Main (props) {
   const position = [37.975438, -121.274070];
   return (
     <div style={{width: '100%'}}>
-      <MapRefresh apnListFound={refreshApnList} apnList={apnList} />
+      <MapRefresh apnListFound={refreshApnList} apnList={apnList} accountAddress={props.accountAddress} />
       <MapContainer center={position} zoom={12} style={{minHeight: '44rem'}}>
         <ApnMap mapCenter={mapCenter} mapZoom={mapZoom} parcelInfo={parcelInfo} />
       </MapContainer>

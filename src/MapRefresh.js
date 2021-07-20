@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import { Grid, Form, Input, Button } from 'semantic-ui-react';
 import ApnConfirmer from './ApnConfirmer';
+import { useSubstrate } from './substrate-lib';
+
 
 function Main (props) {
     const [apnList, setApnList] = useState('');
+    const { api } = useSubstrate();
 
     const handleSubmit = async function () {
+      const claimerLookupRes = await api.query['claimer']['lookup']([]);
+
+      console.log('Calling Query Pallet `claimer.lookup` with no params, got response: ' + claimerLookupRes.toString());
+      // TODO: use `props.accountAddress` to find the apnList we want to query
+      console.log(props.accountAddress);
 
       const res = await fetch('/apn/list/' + props.apnList.join(','));
 
@@ -31,7 +39,7 @@ function Main (props) {
     );
 }
 
-export default function ApnFinder (props) {
+export default function MapRefresh (props) {
   return (
     <Main {...props}/>
   );

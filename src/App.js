@@ -69,7 +69,7 @@ function Main () {
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
-          <GeoJsonMap accountPair={accountPair} />
+          <GeoJsonMap accountPair={accountPair} accountAddress={accountAddress} />
           <Grid.Row>
             <Interactor accountPair={accountPair} />
             <Events />
