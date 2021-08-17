@@ -18,7 +18,6 @@ function Main (props) {
   const handleSubmit = async function () {
 
     const prefix = '0x2df95c7f7f0d67daa549602785d7beae891ad457bf4da54990fa84a2acb148a2';
-    const prefix1 = u8aToString(api.consts.claims.prefix.toU8a(true));
     const lookupRes = await api.rpc.state.getKeysPaged(prefix, 1000);
 
     console.log('Calling RPC with `getKeys(0)`, got response: ');
@@ -28,7 +27,13 @@ function Main (props) {
       const account = val.slice(prefix.length, val.length - 64);
       const apn = val.slice(-64);
 
-      return {apn, account};
+      const address = keyring.decodeAddress(`0x${account}`);
+
+      const decoded = account.match(/.{1,2}/g).map(function(v){
+        return String.fromCharCode(parseInt(v, 16));
+      }).join('');
+
+      return {apn, account, address, decoded};
     }));
     // TODO: use `props.accountAddress` to find the apnList we want to query
     console.log(props.accountAddress);
