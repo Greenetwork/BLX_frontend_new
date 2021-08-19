@@ -4,6 +4,9 @@
     "Name": "[u8;32]",
     "APN": "[u8;32]",
     "apn_value":"[u8;32]",
+    "atokens": "Balance",
+    "AccountInfo": "AccountInfoWithDualRefCount",
+    "Balance1": "u64",
     "ApnToken": {
       "super_apn": "u32",
       "agency_name": "Vec<u8>"
