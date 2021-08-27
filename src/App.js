@@ -63,19 +63,20 @@ function Main () {
       </Sticky>
       <Container>
         <Grid stackable columns='equal'>
-          <Grid.Row stretched>
-            <NodeInfo />
-            <Metadata />
-            <BlockNumber />
-            <BlockNumber finalized />
-          </Grid.Row>
           <GeoJsonMap accountPair={accountPair} accountAddress={accountAddress} />
           <Grid.Row>
             <Interactor accountPair={accountPair} />
             <Events />
           </Grid.Row>
-          <Grid.Row>
+          {/* <Grid.Row>
             <TemplateModule accountPair={accountPair} />
+          </Grid.Row> */}
+          {/* <Grid.Row stretched> */}
+          <Grid.Row stretched>
+            <NodeInfo />
+            <Metadata />
+            <BlockNumber />
+            <BlockNumber finalized />
           </Grid.Row>
         </Grid>
       </Container>

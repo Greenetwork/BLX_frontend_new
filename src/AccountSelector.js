@@ -54,7 +54,10 @@ function Main (props) {
     >
       <Container>
         <Menu.Menu>
-          <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' />
+          {/* <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' /> */}
+          <Image src={`${process.env.PUBLIC_URL}/assets/basinlogix_crop_logo.jpg`} size='medium' />
+
+
         </Menu.Menu>
         <Menu.Menu position='right' style={{ alignItems: 'center' }}>
           { !accountSelected
@@ -120,8 +123,9 @@ function BalanceAnnotation (props) {
 
   return accountSelected
     ? <Label pointing='left'>
-        <Icon name='money' color='green' />
-        {accountBalance}
+        <Icon name='tint' color='blue' />
+        {/* // maybe switch to asset balance */}
+        {accountBalance} 
       </Label>
     : null;
 }

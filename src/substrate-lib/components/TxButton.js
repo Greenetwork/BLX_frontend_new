@@ -263,26 +263,26 @@ TxButton.propTypes = {
 function TxGroupButton (props) {
   return (
     <Button.Group>
-      <TxButton
+      {/* <TxButton
         label='Unsigned'
         type='UNSIGNED-TX'
         color='grey'
         {...props}
-      />
-      <Button.Or />
+      /> */}
+      {/* <Button.Or /> */}
       <TxButton
-        label='Signed'
+        label='Submit'
         type='SIGNED-TX'
         color='blue'
         {...props}
       />
-      <Button.Or />
+      {/* <Button.Or />
       <TxButton
         label='SUDO'
         type='SUDO-TX'
         color='red'
         {...props}
-      />
+      /> */}
     </Button.Group>
   );
 }
