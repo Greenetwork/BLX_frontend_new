@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { TileLayer, GeoJSON, useMap } from 'react-leaflet';
 
 
-function Main({ mapCenter, mapZoom, parcelInfo }) {
+function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
   const map = useMap();
 
   const [triggerGeoReRender, setTriggerGeoReRender] = useState(1);
@@ -10,6 +10,9 @@ function Main({ mapCenter, mapZoom, parcelInfo }) {
   useEffect(function () {
     map.setView(mapCenter, mapZoom);
   }, [mapCenter, mapZoom]);
+  useEffect(function () {
+    map.fitBounds(mapBounds);
+  }, [mapBounds]);
   useEffect(function () {
     console.log(parcelInfo);
     setTriggerGeoReRender(triggerGeoReRender + 1);
