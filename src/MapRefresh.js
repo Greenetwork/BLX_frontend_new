@@ -6,7 +6,6 @@ import { codec } from '@polkadot/types';
 import { u8aToHex, u8aToString } from '@polkadot/util';
 
 function Main (props) {
-  const [apnList, setApnList] = useState('');
   const { api } = useSubstrate();
 
   const hex_to_string = function (metadata) {
@@ -44,7 +43,7 @@ function Main (props) {
       const data = await res.json();
 
       if (typeof props.apnListFound === 'function') {
-        // props.apnListFound(data);
+        props.apnListFound(data);
       }
     } else {
       alert('could not find APN list');

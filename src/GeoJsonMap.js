@@ -13,7 +13,7 @@ function Main (props) {
   const [mapCenter, setMapCenter] = useState({lat: 37.975438, lng: -121.274070});
   const [mapZoom, setMapZoom] = useState(12);
   const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
-  const [apnList, setApnList] = useState(['18704009', '17926036']);
+  const [apnList, setApnList] = useState(['23906014', '23906012', '18704009', '17926036', '16405058', '00101001', '00101006', '00101009']);
 
   const updateParcel = function (data) {
     const coords = data ? parsePolygon(data.geometry) : [[-121.274070, 37.975438]];
@@ -40,6 +40,25 @@ function Main (props) {
 
   const refreshApnList = function (data) {
     console.log(JSON.stringify(data, null, 4));
+    const features = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const claim = data[i];
+      const coords = parsePolygon(claim.geometry);
+
+      features.push({
+        type: 'Feature',
+        properties: claim,
+        geometry: {
+          type: 'Polygon',
+          coordinates: [coords]
+        }
+      });
+    }
+
+    setParcelInfo(parcelInfo => {
+      return {...parcelInfo, features};
+    });
   };
 
   const parsePolygon = function (geometryStr) {

@@ -19,8 +19,8 @@ function Main({ mapCenter, mapZoom, parcelInfo }) {
     return {
       color: '#1f2021',
       weight: 1,
-      fillOpacity: 0.5,
-      fillColor: '#fff2af',
+      fillOpacity: 0.8,
+      fillColor: '#ff0000',
     };
   }
 
