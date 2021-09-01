@@ -20,10 +20,10 @@ function Main (props) {
     const lookupRes = await api.rpc.state.getKeysPaged(prefix, 1000);
 
     console.log('Calling RPC with `getKeys(0)`, got response: ');
-    console.log(lookupRes.map(val => {
+    console.log(await Promise.all(lookupRes.map(async val => {
       val = val.toHex();
 
-      const account = val.slice(prefix.length, val.length - 64); // this is the blake2 128 hash of the apn_account (cant unhash, useless to us AFAIK)
+      //const account = val.slice(prefix.length, val.length - 64); // this is the blake2 128 hash of the apn_account (cant unhash, useless to us AFAIK)
 
       // Need to feed the chain a new version of apn (without 3s and with values of interest at the end) https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10040 
       const apn = val.slice(-64); // apn is also the MultiAddress:Address32 variant of the apn_account 
@@ -32,16 +32,16 @@ function Main (props) {
       // const apn_account = claimer.lookup(`0x${apn}`); https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10036
       // apn_number = apn with leading 0s removed. 
       // ----------pseduo code end ---------------
+      const account = await api.query.claimer.lookup(`0x${apn}`);
 
+      //const address = keyring.decodeAddress(`0x${account}`); // this will disappear
 
-      const address = keyring.decodeAddress(`0x${account}`); // this will disappear
-
-      const decoded = account.match(/.{1,2}/g).map(function(v){ // this will disappear
+      /*const decoded = account.match(/.{1,2}/g).map(function(v){ // this will disappear
         return String.fromCharCode(parseInt(v, 16));
-      }).join('');
+      }).join('');*/
 
-      return {apn, account, address, decoded};
-    }));
+      return {apn, account: account.toHuman()};
+    })));
     // TODO: use `props.accountAddress` to find the apnList we want to query
     console.log(props.accountAddress);
 

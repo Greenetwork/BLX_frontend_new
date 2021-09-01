@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
+import { base64ToArray } from './helpers.js';
 
 const initInputParams = [
   {type: 'ProxyType', value: 'Any'},
@@ -19,7 +20,8 @@ function Main (props) {
     if (!apnData) return;
 
     const inputParams = [...initInputParams];
-    inputParams[3].value = apnData.apn && apnData.apn.toString();
+    const val = apnData.apn && apnData.apn.toString();
+    inputParams[3].value = val && base64ToArray(val);
     setInputParams(inputParams);
   }, [apnData]);
 

@@ -40,7 +40,7 @@ function Main (props) {
   };
 
   const refreshApnList = function (data) {
-    console.log(JSON.stringify(data, null, 4));
+    //console.log(JSON.stringify(data, null, 4));
     const features = [];
     let maxLat = -1 * Number.MAX_VALUE;
     let minLat = Number.MAX_VALUE

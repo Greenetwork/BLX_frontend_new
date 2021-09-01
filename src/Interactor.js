@@ -3,7 +3,6 @@ import { Grid, Form, Dropdown, Input, Label } from 'semantic-ui-react';
 
 import { useSubstrate } from './substrate-lib';
 import { TxButton, TxGroupButton } from './substrate-lib/components';
-import { base64ToArray } from './helpers.js';
 
 const argIsOptional = (arg) =>
   arg.type.toString().startsWith('Option<');
