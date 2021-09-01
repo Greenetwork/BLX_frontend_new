@@ -14,7 +14,7 @@ function Main (props) {
   const [mapZoom, setMapZoom] = useState(12);
   const [mapBounds, setMapBounds] = useState([[37.995438, -121.174070], [37.905438, -121.294070]]);
   const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
-  const [apnList, setApnList] = useState(['23906014', '23906012', '18704009', '17926036', '16405058', '00101001', '00101006', '00101009']);
+  const [apnList, setApnList] = useState(['317051','317053','317005','317052','309010','309012','1308004','1313024']);
 
   const updateParcel = function (data) {
     const coords = data ? parsePolygon(data.geometry) : [[-121.274070, 37.975438]];

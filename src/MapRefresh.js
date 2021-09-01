@@ -23,12 +23,20 @@ function Main (props) {
     console.log(lookupRes.map(val => {
       val = val.toHex();
 
-      const account = val.slice(prefix.length, val.length - 64);
-      const apn = val.slice(-64);
+      const account = val.slice(prefix.length, val.length - 64); // this is the blake2 128 hash of the apn_account (cant unhash, useless to us AFAIK)
 
-      const address = keyring.decodeAddress(`0x${account}`);
+      // Need to feed the chain a new version of apn (without 3s and with values of interest at the end) https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10040 
+      const apn = val.slice(-64); // apn is also the MultiAddress:Address32 variant of the apn_account 
 
-      const decoded = account.match(/.{1,2}/g).map(function(v){
+      // ----------pseduo code start ---------------
+      // const apn_account = claimer.lookup(`0x${apn}`); https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10036
+      // apn_number = apn with leading 0s removed. 
+      // ----------pseduo code end ---------------
+
+
+      const address = keyring.decodeAddress(`0x${account}`); // this will disappear
+
+      const decoded = account.match(/.{1,2}/g).map(function(v){ // this will disappear
         return String.fromCharCode(parseInt(v, 16));
       }).join('');
 
