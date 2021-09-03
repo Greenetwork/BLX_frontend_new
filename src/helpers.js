@@ -1,4 +1,21 @@
 
+export function encodeApnHuman(value) {
+  let apn = '';
+
+  for (let i = 0; i < value.length; i++) {
+    const char = value[i];
+    apn += ('3' + char);
+  }
+
+  let human = ''
+  for (let i = 0; i < 64 - apn.length; i++) {
+    human += '0';
+  }
+
+  human += apn;
+  return human;
+}
+
 export function encodeApn(value) {
   if (value === void 0) value = '';
   // convert user input string to all characters that can be base64 encoded

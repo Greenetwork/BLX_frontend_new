@@ -14,7 +14,7 @@ function Main (props) {
   const [mapZoom, setMapZoom] = useState(12);
   const [mapBounds, setMapBounds] = useState([[37.995438, -121.174070], [37.905438, -121.294070]]);
   const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
-  const [apnList, setApnList] = useState(['317051','317053','317005','317052','309010','309012','1308004','1313024']);
+  const [apnList, setApnList] = useState([]);
 
   const updateParcel = function (data) {
     const coords = data ? parsePolygon(data.geometry) : [[-121.274070, 37.975438]];
@@ -22,7 +22,21 @@ function Main (props) {
       lat: coords[0][1],
       lng: coords[0][0]
     });
-    setMapZoom(data ? 17 : 12);
+
+    let maxLat = -1 * Number.MAX_VALUE;
+    let minLat = Number.MAX_VALUE
+    let maxLon = -1 * Number.MAX_VALUE;
+    let minLon = Number.MAX_VALUE;
+    for (let i = 0; i < coords.length; i++) {
+      const lon = coords[i][0];
+      const lat = coords[i][1];
+
+      if (lon > maxLon) maxLon = lon;
+      if (lon < minLon) minLon = lon;
+      if (lat > maxLat) maxLat = lat;
+      if (lat < minLat) minLat = lat;
+    }
+    setMapBounds([[maxLat, maxLon], [minLat, minLon]])
 
     setParcelInfo(parcelInfo => {
       const features = data ? [{

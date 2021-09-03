@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Grid, Form, Input, Button } from 'semantic-ui-react';
+import { useSubstrate } from './substrate-lib';
 import ApnConfirmer from './ApnConfirmer';
+import { encodeApnHuman, encodeApn } from './helpers.js';
 
 function Main (props) {
+    const { api } = useSubstrate();
     const [apn, setApn] = useState('');
     const [apnData, setApnData] = useState({});
 
@@ -11,7 +14,20 @@ function Main (props) {
 
       if (res.ok) {
         const data = await res.json();
+        const apnEnc = '0x' + encodeApnHuman(data.apn_chr);
 
+        let delegateId;
+        try {
+          const proxyId = await api.query.claimer.lookup(apnEnc);
+          console.log(proxyId.toHuman());
+          const accountInfo = await api.query.claimer.proxies(proxyId.toHuman());
+          const delegateInfo = accountInfo[0] && accountInfo[0].toHuman();
+          delegateId = delegateInfo && delegateInfo[0] && delegateInfo[0].delegate;
+        } catch (err) {
+          console.log(err);
+        }
+
+        if (delegateId === props.accountAddress) data.owner = true;
         setApnData(data);
         if (typeof props.apnFound === 'function') {
           props.apnFound(data);
