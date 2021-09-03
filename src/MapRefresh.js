@@ -13,6 +13,7 @@ function Main (props) {
 
     const prefix = '0x2df95c7f7f0d67daa549602785d7beae891ad457bf4da54990fa84a2acb148a2';
     const lookupRes = await api.rpc.state.getKeysPaged(prefix, 1000);
+    //const lookupRes = await api.query.claimer.proxies('0x');
 
     console.log('Calling RPC with `getKeys(0)`, got response: ');
     const ownerMap = await Promise.all(lookupRes.map(async val => {
@@ -30,7 +31,7 @@ function Main (props) {
 
       return {apn: decodeApn(apn), owner: delegateId};
     }));
-    console.log(ownerMap);
+
     // use `props.accountAddress` to find the apnList we want to query
     console.log(props.accountAddress);
 
@@ -48,7 +49,7 @@ function Main (props) {
           const owner = ownerMap.find(owner => {
             return owner.owner === props.accountAddress && owner.apn === dbData.apn_chr;
           });
-          if (owner) dbData.owner = true;
+          if (owner) dbData.owner = owner;
 
           return dbData;
         }));

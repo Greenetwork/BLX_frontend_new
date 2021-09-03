@@ -11,9 +11,9 @@ function Main (props) {
 
     const handleSubmit = async function () {
       const res = await fetch('/apn/' + apn);
+      const data = await res.json();
 
-      if (res.ok) {
-        const data = await res.json();
+      if (res.ok && data) {
         const apnEnc = '0x' + encodeApnHuman(data.apn_chr);
 
         let delegateId;
