@@ -26,13 +26,12 @@ function Main (props) {
       //const account = val.slice(prefix.length, val.length - 64); // this is the blake2 128 hash of the apn_account (cant unhash, useless to us AFAIK)
 
       // Need to feed the chain a new version of apn (without 3s and with values of interest at the end) https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10040 
-      const apn = val.slice(-64); // apn is also the MultiAddress:Address32 variant of the apn_account 
+      const apn = val.slice(-64); // apn is also the MultiAddress:Address32 variant of the apn_account
 
       // ----------pseduo code start ---------------
       // const apn_account = claimer.lookup(`0x${apn}`); https://basin-logix.atlassian.net/browse/BL2-65?focusedCommentId=10036
       // apn_number = apn with leading 0s removed. 
       // ----------pseduo code end ---------------
-      const account = await api.query.claimer.lookup(`0x${apn}`);
 
       //const address = keyring.decodeAddress(`0x${account}`); // this will disappear
 
@@ -40,7 +39,17 @@ function Main (props) {
         return String.fromCharCode(parseInt(v, 16));
       }).join('');*/
 
-      return {apn, account: account.toHuman()};
+      // -----------       ATTN: Spencer       ------------
+      // This seems to get the APN and the account that has claimed it
+      // The JSON returned leaves room for multiple delegates, this code is showing the first one
+      // Not sure if showing the first one is appropriate?
+      const proxyId = await api.query.claimer.lookup(`0x${apn}`);
+      const accountInfo = await api.query.claimer.proxies(proxyId.toHuman());
+
+      const delegateInfo = accountInfo[0] && accountInfo[0].toHuman();
+      const delegateId = delegateInfo && delegateInfo[0] && delegateInfo[0].delegate;
+
+      return {apn, owner: delegateId};
     })));
     // TODO: use `props.accountAddress` to find the apnList we want to query
     console.log(props.accountAddress);
