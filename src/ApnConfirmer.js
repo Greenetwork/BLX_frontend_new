@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
-import { base64ToArray } from './helpers.js';
+import { encodeApn } from './helpers.js';
 
 const initInputParams = [
   {type: 'ProxyType', value: 'Any'},
@@ -21,7 +21,7 @@ function Main (props) {
 
     const inputParams = [...initInputParams];
     const val = apnData.apn && apnData.apn.toString();
-    inputParams[3].value = val && base64ToArray(val);
+    inputParams[3].value = val && encodeApn(val);
     setInputParams(inputParams);
   }, [apnData]);
 
@@ -48,7 +48,7 @@ function Main (props) {
           paramFields: [
             {name: 'proxy_type', type: 'ProxyType', optional: false},
             {name: 'delay', type: 'BlockNumber', optional: false},
-            {name: 'index', type: 'u16', optional: false},
+            {name: 'index', type: 'u8', optional: false},
             {name: 'apn_value', type: '[u8;32]', optional: false}
           ]
         }}

@@ -147,18 +147,25 @@ function TxButton ({
     setStatus('Sending...');
 
     if (isSudo()) {
+      console.log('isSudo');
       await sudoTx();
     } else if (isUncheckedSudo()) {
+      console.log('isUncheckedSudo');
       await uncheckedSudoTx();
     } else if (isSigned()) {
+      console.log('isSigned');
       await signedTx();
     } else if (isUnsigned()) {
+      console.log('isUnsigned');
       await unsignedTx();
     } else if (isQuery()) {
+      console.log('isQuery');
       await query();
     } else if (isRpc()) {
-      await rpc()
+      console.log('isRpc');
+      await rpc();
     } else if (isConstant()) {
+      console.log('isConstant');
       await constant();
     }
 

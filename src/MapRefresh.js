@@ -4,6 +4,7 @@ import ApnConfirmer from './ApnConfirmer';
 import { useSubstrate } from './substrate-lib';
 import { codec } from '@polkadot/types';
 import { u8aToHex, u8aToString } from '@polkadot/util';
+import { decodeApn } from './helpers.js';
 
 function Main (props) {
   const { api } = useSubstrate();
@@ -20,7 +21,7 @@ function Main (props) {
     const lookupRes = await api.rpc.state.getKeysPaged(prefix, 1000);
 
     console.log('Calling RPC with `getKeys(0)`, got response: ');
-    console.log(await Promise.all(lookupRes.map(async val => {
+    const ownerMap = await Promise.all(lookupRes.map(async val => {
       val = val.toHex();
 
       //const account = val.slice(prefix.length, val.length - 64); // this is the blake2 128 hash of the apn_account (cant unhash, useless to us AFAIK)
@@ -49,18 +50,29 @@ function Main (props) {
       const delegateInfo = accountInfo[0] && accountInfo[0].toHuman();
       const delegateId = delegateInfo && delegateInfo[0] && delegateInfo[0].delegate;
 
-      return {apn, owner: delegateId};
-    })));
-    // TODO: use `props.accountAddress` to find the apnList we want to query
+      return {apn: decodeApn(apn), owner: delegateId};
+    }));
+    console.log(ownerMap);
+    // use `props.accountAddress` to find the apnList we want to query
     console.log(props.accountAddress);
 
-    const res = await fetch('/apn/list/' + props.apnList.join(','));
+    const apnList = props.apnList;
+    //const apnList = ownerMap.map(ownership => ownership.apn);
+
+    const res = await fetch('/apn/list/' + apnList.join(','));
 
     if (res.ok) {
       const data = await res.json();
 
       if (typeof props.apnListFound === 'function') {
-        props.apnListFound(data);
+        props.apnListFound(data.map(dbData => {
+          const owner = ownerMap.find(owner => {
+            return owner.owner === props.accountAddress && owner.apn === dbData.apn_chr;
+          });
+          if (owner) dbData.owner = true;
+
+          return dbData;
+        }));
       }
     } else {
       alert('could not find APN list');

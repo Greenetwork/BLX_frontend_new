@@ -18,12 +18,12 @@ function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
     setTriggerGeoReRender(triggerGeoReRender + 1);
   }, [parcelInfo]);
 
-  function geoJSONStyle() {
+  function geoJSONStyle(feature) {
     return {
       color: '#1f2021',
       weight: 1,
       fillOpacity: 0.8,
-      fillColor: '#ff0000',
+      fillColor: feature.properties && feature.properties.owner ? '#2450ff' : '#999999',
     };
   }
 
