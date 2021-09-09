@@ -1,7 +1,7 @@
 // @flow
 import { useState } from 'react';
 import { MapContainer } from 'react-leaflet';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Radio } from 'semantic-ui-react';
 
 import ApnFinder from './ApnFinder';
 import ApnTable from './ApnTable';
@@ -20,6 +20,11 @@ function Main (props) {
   const [parcelInfo, setParcelInfo] = useState({...initParcelInfo});
   const [apnList, setApnList] = useState([]);
   const [apnStatusList, setApnStatusList] = useState([]);
+  const [isRegulator, setIsRegulator] = useState(false);
+
+  const regulatorViewChange = function (e, args) {
+    setIsRegulator(!isRegulator);
+  };
 
   const updateParcel = function (data) {
     const coords = data ? parsePolygon(data.geometry) : [[-121.274070, 37.975438]];
@@ -60,6 +65,10 @@ function Main (props) {
 
   const refreshApnList = async function (data) {
     //console.log(JSON.stringify(data, null, 4));
+
+    // TODO: Not sure is we need this in state
+    setApnList(data);
+
     const features = [];
     let maxLat = -1 * Number.MAX_VALUE;
     let minLat = Number.MAX_VALUE
@@ -89,7 +98,17 @@ function Main (props) {
       });
     }
 
-    setMapBounds([[maxLat, maxLon], [minLat, minLon]]);
+    const bounds = (maxLat < -180 || maxLon < -360 || minLat > 180 || minLon > 360) ?
+    [
+      [37.907506579631, -121.223565024536],
+      [37.9296422893884, -121.038149460093]
+    ] :
+    [
+      [maxLat, maxLon],
+      [minLat, minLon]
+    ];
+
+    setMapBounds(bounds);
 
     setParcelInfo(parcelInfo => {
       return {...parcelInfo, features};
@@ -136,7 +155,11 @@ function Main (props) {
   const position = [37.975438, -121.274070];
   return (
     <div style={{width: '100%'}}>
-      <MapRefresh apnListFound={refreshApnList} apnList={apnList} accountAddress={props.accountAddress} />
+      <MapRefresh
+        apnListFound={refreshApnList}
+        accountAddress={props.accountAddress}
+        isRegulator={isRegulator}
+      />
       <Grid>
         <Grid.Column width={12}>
           <MapContainer center={position} zoom={12} style={{minHeight: '44rem', width: '100%'}}>
@@ -144,7 +167,13 @@ function Main (props) {
           </MapContainer>
         </Grid.Column>
         <Grid.Column width={4}>
-          <ApnTable apnStatusList={ apnStatusList } {...props}></ApnTable>
+          <Radio
+            toggle
+            label='Regulator View'
+            checked={ isRegulator }
+            onChange={ regulatorViewChange }
+          />
+          <ApnTable apnStatusList={apnStatusList} isRegulator={isRegulator} {...props}></ApnTable>
         </Grid.Column>
       </Grid>
       <ApnFinder apnFound={ updateParcel } {...props} />

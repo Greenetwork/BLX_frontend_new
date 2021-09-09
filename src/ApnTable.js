@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Image } from 'semantic-ui-react';
 
 
 function Main(props) {
-
   const rows = props.apnStatusList.map(status => {
     return (
       <Table.Row key={status.apn}>
@@ -11,7 +10,12 @@ function Main(props) {
           { status.apn }
         </Table.Cell>
         <Table.Cell>
-          { status.alloc }
+          {
+            !props.isRegulator ? status.alloc :
+            status.alloc < 10 ? 
+              <Image src={`${process.env.PUBLIC_URL}/assets/red-cross-mark.png`} height="19" /> :
+              <Image src={`${process.env.PUBLIC_URL}/assets/white-green-check.svg`} height="19" />
+          }
         </Table.Cell>
       </Table.Row>
     );
@@ -22,7 +26,7 @@ function Main(props) {
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>APN</Table.HeaderCell>
-          <Table.HeaderCell>Allocation (ACFT)</Table.HeaderCell>
+          <Table.HeaderCell>{ props.isRegulator ? 'Compliant' : 'Allocation (ACFT)'}</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 

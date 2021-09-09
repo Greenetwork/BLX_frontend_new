@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, Form, Input, Button } from 'semantic-ui-react';
 import ApnConfirmer from './ApnConfirmer';
 import { useSubstrate } from './substrate-lib';
@@ -8,6 +8,10 @@ import { decodeApn } from './helpers.js';
 
 function Main (props) {
   const { api } = useSubstrate();
+
+  useEffect(() => {
+    handleSubmit()
+  }, [props.isRegulator, props.accountAddress]);
 
   const handleSubmit = async function () {
 
@@ -32,10 +36,6 @@ function Main (props) {
       return {apn: decodeApn(apn), owner: delegateId, proxy: proxyId.toHuman()};
     }));
 
-    // use `props.accountAddress` to find the apnList we want to query
-    console.log(props.accountAddress);
-
-    //const apnList = props.apnList;
     const apnList = ownerMap.map(ownership => ownership.apn);
 
     if (!(apnList && apnList.length)) return;
@@ -47,7 +47,8 @@ function Main (props) {
       if (typeof props.apnListFound === 'function') {
         props.apnListFound(data.map(dbData => {
           const owner = ownerMap.find(owner => {
-            return owner.owner === props.accountAddress && owner.apn === dbData.apn_chr;
+            // use `props.accountAddress` to find the apnList we want to query, unless we are using regulator view
+            return (props.isRegulator || owner.owner === props.accountAddress) && owner.apn === dbData.apn_chr;
           });
           if (owner) dbData.owner = owner;
 

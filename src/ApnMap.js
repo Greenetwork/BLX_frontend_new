@@ -22,7 +22,7 @@ function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
     return {
       color: '#1f2021',
       weight: 1,
-      fillOpacity: 0.8,
+      fillOpacity: 1,
       fillColor: feature.properties && feature.properties.owner ? '#2450ff' : '#999999',
     };
   }
