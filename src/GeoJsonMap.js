@@ -109,7 +109,7 @@ function Main (props) {
       for (let i = 0; i < uniqueApns.length; i++) {
         const datum = uniqueApns[i];
         if (!datum.owner) continue;
-        const status = await api.query.allocator.balances(datum.owner.apn, datum.owner.owner);
+        const status = await api.query.allocator.balances(0, datum.owner.proxy);
         statusList.push({
           alloc: status.toHuman(),
           apn: datum.owner.apn

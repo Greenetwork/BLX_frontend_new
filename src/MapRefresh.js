@@ -29,7 +29,7 @@ function Main (props) {
       const delegateInfo = accountInfo[0] && accountInfo[0].toHuman();
       const delegateId = delegateInfo && delegateInfo[0] && delegateInfo[0].delegate;
 
-      return {apn: decodeApn(apn), owner: delegateId};
+      return {apn: decodeApn(apn), owner: delegateId, proxy: proxyId.toHuman()};
     }));
 
     // use `props.accountAddress` to find the apnList we want to query
