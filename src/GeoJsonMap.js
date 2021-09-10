@@ -121,6 +121,7 @@ function Main (props) {
       const exists = unique.find(apn => apn.owner.apn === datum.owner.apn);
       if (exists) return unique;
 
+      datum.coords = parsePolygon(datum.geometry);
       unique.push(datum);
       return unique;
     }, []);
@@ -132,7 +133,8 @@ function Main (props) {
         const status = await api.query.allocator.balances(0, datum.owner.proxy);
         statusList.push({
           alloc: status.toHuman(),
-          apn: datum.owner.apn
+          apn: datum.owner.apn,
+          coords: datum.coords
         });
       }
     } catch (err) {
@@ -187,7 +189,12 @@ function Main (props) {
             checked={ isRegulator }
             onChange={ regulatorViewChange }
           />
-          <ApnTable apnStatusList={apnStatusList} isRegulator={isRegulator} {...props}></ApnTable>
+          <ApnTable
+            apnStatusList={apnStatusList}
+            isRegulator={isRegulator}
+            setMapBounds={setMapBounds}
+            {...props}
+          ></ApnTable>
         </Grid.Column>
       </Grid>
       <ApnFinder apnFound={ updateParcel } {...props} />

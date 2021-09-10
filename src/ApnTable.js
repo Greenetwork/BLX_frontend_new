@@ -1,11 +1,18 @@
 import { Table, Image } from 'semantic-ui-react';
+import { getBounds } from './helpers.js';
 
 
 function Main(props) {
+  const centerMap = function (status) {
+    const coords = status.coords;
+
+    props.setMapBounds(getBounds(coords))
+  };
+
   const rows = props.apnStatusList.map(status => {
     return (
       <Table.Row key={status.apn}>
-        <Table.Cell>
+        <Table.Cell onClick={() => {centerMap(status)}} className='js-link'>
           { status.apn }
         </Table.Cell>
         <Table.Cell>

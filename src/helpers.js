@@ -86,3 +86,32 @@ export function base64ToArray(value) {
   }
   return bytes;
 }
+
+export function getBounds(coords) {
+  let maxLat = -1 * Number.MAX_VALUE;
+  let minLat = Number.MAX_VALUE
+  let maxLon = -1 * Number.MAX_VALUE;
+  let minLon = Number.MAX_VALUE;
+
+  for (let j = 0; j < coords.length; j++) {
+    const lon = coords[j][0];
+    const lat = coords[j][1];
+
+    if (lon > maxLon) maxLon = lon;
+    if (lon < minLon) minLon = lon;
+    if (lat > maxLat) maxLat = lat;
+    if (lat < minLat) minLat = lat;
+  }
+
+  if (maxLat < -180 || maxLon < -360 || minLat > 180 || minLon > 360) {
+    return [
+      [37.907506579631, -121.223565024536],
+      [37.9296422893884, -121.038149460093]
+    ];
+  }
+
+  return [
+    [maxLat, maxLon],
+    [minLat, minLon]
+  ];
+}
