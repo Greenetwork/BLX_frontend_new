@@ -59,13 +59,9 @@ function Main (props) {
   };
 
   return (
-    <Grid.Row width={8}>
-      <Grid.Column width={4}>
-        <Form onSubmit={handleSubmit}>
-          <Button type='submit'>Refresh</Button>
-        </Form>
-      </Grid.Column>
-    </Grid.Row>
+    <Form onSubmit={handleSubmit}>
+      <Button type='submit'>Refresh</Button>
+    </Form>
   );
 }
 

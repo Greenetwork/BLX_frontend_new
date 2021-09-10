@@ -12,6 +12,7 @@ const initInputParams = [
 
 function Main (props) {
   const apnData = props.apnData;
+  // Note: setStatus is required by TxButton
   const [status, setStatus] = useState(null);
 
   const [inputParams, setInputParams] = useState([...initInputParams]);

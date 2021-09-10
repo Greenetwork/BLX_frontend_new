@@ -7,6 +7,7 @@ import ApnFinder from './ApnFinder';
 import ApnTable from './ApnTable';
 import MapRefresh from './MapRefresh';
 import ApnMap from './ApnMap';
+import AllocationDistributor from './AllocationDistributor';
 import initParcelInfo from './assets/emptymap.js';
 import { useSubstrate } from './substrate-lib';
 
@@ -155,11 +156,24 @@ function Main (props) {
   const position = [37.975438, -121.274070];
   return (
     <div style={{width: '100%'}}>
-      <MapRefresh
-        apnListFound={refreshApnList}
-        accountAddress={props.accountAddress}
-        isRegulator={isRegulator}
-      />
+      <Grid columns={2}>
+        <Grid.Row>
+          <Grid.Column floated='left'>
+            <MapRefresh
+              apnListFound={refreshApnList}
+              accountAddress={props.accountAddress}
+              isRegulator={isRegulator}
+            />
+          </Grid.Column>
+          <Grid.Column floated='right'>
+          {
+            isRegulator ?
+            <AllocationDistributor apnList={apnList} {...props}></AllocationDistributor> :
+            ''
+          }
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       <Grid>
         <Grid.Column width={12}>
           <MapContainer center={position} zoom={12} style={{minHeight: '44rem', width: '100%'}}>
