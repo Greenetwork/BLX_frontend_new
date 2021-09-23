@@ -26,18 +26,11 @@ function Main (props) {
     setInputParams(inputParams);
   }, [apnData]);
 
-  const formatResults = function (apnData) {
-    if (apnData === void 0) apnData = null;
-
-    return JSON.stringify(apnData, null, 2);
-  };
-
   return (
-    <Grid.Column width={4}>
-      <h1>APN Results</h1>
+    <span>
       { (apnData && apnData.apn)
       ? <TxButton
-        label='Claim This APN'
+        label='Claim APN'
         type='SIGNED-TX'
         color='blue'
         setStatus={setStatus}
@@ -56,12 +49,7 @@ function Main (props) {
         {...props}
       />
       : null }
-      <div key={ apnData }>
-        <pre>
-          { formatResults(apnData) }
-        </pre>
-      </div>
-    </Grid.Column>
+    </span>
   );
 }
 

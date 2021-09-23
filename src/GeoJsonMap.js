@@ -1,7 +1,7 @@
 // @flow
 import { useState } from 'react';
 import { MapContainer } from 'react-leaflet';
-import { Grid, Radio } from 'semantic-ui-react';
+import { Grid, Radio, Table } from 'semantic-ui-react';
 
 import ApnFinder from './ApnFinder';
 import ApnTable from './ApnTable';
@@ -15,6 +15,7 @@ import { useSubstrate } from './substrate-lib';
 function Main (props) {
   const { api } = useSubstrate();
 
+  const [apnData, setApnData] = useState({});
   const [mapCenter, setMapCenter] = useState({lat: 37.975438, lng: -121.274070});
   const [mapZoom, setMapZoom] = useState(12);
   const [mapBounds, setMapBounds] = useState([[37.995438, -121.174070], [37.905438, -121.294070]]);
@@ -61,6 +62,9 @@ function Main (props) {
 
       return {...parcelInfo, features};
     });
+
+    // show data in table below map
+    setApnData(data || {});
 
   };
 
@@ -156,17 +160,12 @@ function Main (props) {
   };
 
   const position = [37.975438, -121.274070];
+
   return (
     <div style={{width: '100%'}}>
       <Grid columns={2}>
         <Grid.Row>
-          <Grid.Column floated='left'>
-            <MapRefresh
-              apnListFound={refreshApnList}
-              accountAddress={props.accountAddress}
-              isRegulator={isRegulator}
-            />
-          </Grid.Column>
+          <Grid.Column floated='left'><h1><br/></h1></Grid.Column>
           <Grid.Column floated='right'>
           {
             isRegulator ?
@@ -183,21 +182,82 @@ function Main (props) {
           </MapContainer>
         </Grid.Column>
         <Grid.Column width={4}>
-          <Radio
-            toggle
-            label='Regulator View'
-            checked={ isRegulator }
-            onChange={ regulatorViewChange }
-          />
+          <Grid columns={2}>
+            <Grid.Row>
+              <Grid.Column floated='left'>
+                <MapRefresh
+                  apnListFound={refreshApnList}
+                  accountAddress={props.accountAddress}
+                  isRegulator={isRegulator}
+                />
+              </Grid.Column>
+              <Grid.Column floated='right'>
+                <Radio
+                  toggle
+                  label='Regulator View'
+                  checked={ isRegulator }
+                  onChange={ regulatorViewChange }
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
           <ApnTable
             apnStatusList={apnStatusList}
             isRegulator={isRegulator}
             setMapBounds={setMapBounds}
             {...props}
           ></ApnTable>
+          <ApnFinder apnFound={ updateParcel } {...props} />
         </Grid.Column>
       </Grid>
-      <ApnFinder apnFound={ updateParcel } {...props} />
+      <Grid>
+        <h1>APN Results</h1>
+        <div style={{width: '100%', minHeight: '10rem'}}>
+          <Table celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Key</Table.HeaderCell>
+                <Table.HeaderCell>Value</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>
+                  apn
+                </Table.Cell>
+                <Table.Cell>
+                  { apnData['apn'] }
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  agency_name
+                </Table.Cell>
+                <Table.Cell>
+                  { apnData['agency_name'] }
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  acres
+                </Table.Cell>
+                <Table.Cell>
+                  { apnData['acres'] }
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  county
+                </Table.Cell>
+                <Table.Cell>
+                  { apnData['county'] }
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </div>
+      </Grid>
     </div>
   );
 

@@ -24,11 +24,15 @@ function Main (props) {
           const delegateInfo = accountInfo[0] && accountInfo[0].toHuman();
           delegateId = delegateInfo && delegateInfo[0] && delegateInfo[0].delegate;
         } catch (err) {
+          // if we get here the proxy lookup failed, which usually means the apn hasn't been claimed
+          // this isn't an issue so we catch the error and move on
           console.log(err);
         }
 
         if (delegateId === props.accountAddress) data.owner = true;
+
         setApnData(data);
+
         if (typeof props.apnFound === 'function') {
           props.apnFound(data);
         }
@@ -46,6 +50,14 @@ function Main (props) {
         <Grid.Column width={4}>
           <h1>Search for APN</h1>
           <Form onSubmit={handleSubmit}>
+            <Grid>
+              <Grid.Column floated='left' width={8}>
+                <Button type='submit' style={{width: '100%'}}>Search</Button>
+              </Grid.Column>
+              <Grid.Column floated='right' width={8}>
+                <ApnConfirmer style={{width: '100%'}} key={ apn } apnData={ apnData } {...props} />
+              </Grid.Column>
+            </Grid>
             <Form.Field>
               <Input
                 placeholder='APN Value'
@@ -56,11 +68,7 @@ function Main (props) {
                 onChange={ apnChange }
               />
             </Form.Field>
-            <Button type='submit'>Search</Button>
           </Form>
-        </Grid.Column>
-        <Grid.Column width={4}>
-          <ApnConfirmer key={ apn } apnData={ apnData } {...props} />
         </Grid.Column>
       </Grid.Row>
     );
