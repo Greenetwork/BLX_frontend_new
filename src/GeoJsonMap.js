@@ -8,6 +8,7 @@ import ApnTable from './ApnTable';
 import MapRefresh from './MapRefresh';
 import ApnMap from './ApnMap';
 import AllocationDistributor from './AllocationDistributor';
+import Transfer from './Transfer';
 import initParcelInfo from './assets/emptymap.js';
 import { useSubstrate } from './substrate-lib';
 
@@ -180,6 +181,52 @@ function Main (props) {
           <MapContainer center={position} zoom={12} style={{minHeight: '44rem', width: '100%'}}>
             <ApnMap mapCenter={mapCenter} mapZoom={mapZoom} mapBounds={mapBounds} parcelInfo={parcelInfo} />
           </MapContainer>
+          <h1>APN Results</h1>
+          <div style={{width: '100%', minHeight: '10rem'}}>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Key</Table.HeaderCell>
+                  <Table.HeaderCell>Value</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell>
+                    apn
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['apn'] }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    agency_name
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['agency_name'] }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    acres
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['acres'] }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    county
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['county'] }
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          </div>
         </Grid.Column>
         <Grid.Column width={4}>
           <Grid columns={2}>
@@ -208,55 +255,11 @@ function Main (props) {
             {...props}
           ></ApnTable>
           <ApnFinder apnFound={ updateParcel } {...props} />
-        </Grid.Column>
-      </Grid>
-      <Grid>
-        <h1>APN Results</h1>
-        <div style={{width: '100%', minHeight: '10rem'}}>
-          <Table celled>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Key</Table.HeaderCell>
-                <Table.HeaderCell>Value</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
 
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell>
-                  apn
-                </Table.Cell>
-                <Table.Cell>
-                  { apnData['apn'] }
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  agency_name
-                </Table.Cell>
-                <Table.Cell>
-                  { apnData['agency_name'] }
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  acres
-                </Table.Cell>
-                <Table.Cell>
-                  { apnData['acres'] }
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>
-                  county
-                </Table.Cell>
-                <Table.Cell>
-                  { apnData['county'] }
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
-        </div>
+          <div style={{ marginTop: '2rem' }}>
+            <Transfer {...props} />
+          </div>
+        </Grid.Column>
       </Grid>
     </div>
   );
