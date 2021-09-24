@@ -40,15 +40,8 @@ function Main (props) {
   return (
     <Grid.Column>
       <Card>
-        <Card.Content textAlign='center'>
-          <Statistic
-            label={(finalized ? 'Finalized' : 'Current') + ' Block'}
-            value={blockNumber}
-          />
-        </Card.Content>
-        <Card.Content extra>
-          <Icon name='time' /> {blockNumberTimer}
-        </Card.Content>
+        {(finalized ? 'Finalized' : 'Current') + ' Block ' + blockNumber}
+        <Icon name='time' /> {blockNumberTimer}
       </Card>
     </Grid.Column>
   );

@@ -1,5 +1,5 @@
 import React, { useState, createRef } from 'react';
-import { Container, Dimmer, Loader, Grid, Sticky, Message } from 'semantic-ui-react';
+import { Container, Dimmer, Loader, Grid, Segment, Sticky, Message } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
@@ -71,23 +71,27 @@ function Main () {
               <Events />
             </Grid.Row>
           </div>
-          <div style={{width: '100%'}}>
+          {/* <div style={{width: '100%'}}>
             <Grid.Row>
               <Interactor accountPair={accountPair} />
             </Grid.Row>
-          </div>
+          </div> */}
           {/* <Grid.Row>
             <TemplateModule accountPair={accountPair} />
           </Grid.Row> */}
           {/* <Grid.Row stretched> */}
-          <Grid.Row stretched>
+        </Grid>
+      </Container>
+      <Segment inverted style={{ padding: '0em 5em' }}>
+        <Container>
+          <Grid.Row>
             <NodeInfo />
             <Metadata />
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
-        </Grid>
-      </Container>
+        </Container>
+      </Segment>
       <DeveloperConsole />
     </div>
   );
