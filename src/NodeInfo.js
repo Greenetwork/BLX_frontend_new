@@ -25,18 +25,9 @@ function Main (props) {
 
   return (
     <Grid.Column>
-      <Card>
-        <Card.Content>
-          <Card.Header>{nodeInfo.nodeName}</Card.Header>
-          <Card.Meta>
-            <span>{nodeInfo.chain}</span>
-          </Card.Meta>
-          <Card.Description>{socket}</Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <Icon name='setting' />v{nodeInfo.nodeVersion}
-        </Card.Content>
-      </Card>
+      <div style={{display: 'inline'}}>
+        <Icon name='setting' />v{nodeInfo.nodeVersion}
+      </div>
     </Grid.Column>
   );
 }

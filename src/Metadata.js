@@ -21,26 +21,19 @@ function Main (props) {
 
   return (
     <Grid.Column>
-      <Card>
-        <Card.Content>
-          <Card.Header>Metadata</Card.Header>
-          <Card.Meta>
-            <span>v{metadata.version}</span>
-          </Card.Meta>
-        </Card.Content>
-        <Card.Content extra>
-          <Modal trigger={<Button>Show Metadata</Button>}>
-            <Modal.Header>Runtime Metadata</Modal.Header>
-            <Modal.Content scrolling>
-              <Modal.Description>
-                <pre>
-                  <code>{JSON.stringify(metadata.data, null, 2)}</code>
-                </pre>
-              </Modal.Description>
-            </Modal.Content>
-          </Modal>
-        </Card.Content>
-      </Card>
+      <div style={{display: 'inline'}}>
+        <b>Metadata: </b>{'v' + metadata.version + ' '}
+        <Modal trigger={<Button compact  circular icon='settings' size='mini' />}>
+          <Modal.Header>Runtime Metadata</Modal.Header>
+          <Modal.Content scrolling>
+            <Modal.Description>
+              <pre>
+                <code>{JSON.stringify(metadata.data, null, 2)}</code>
+              </pre>
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
+      </div>
     </Grid.Column>
   );
 }

@@ -39,10 +39,10 @@ function Main (props) {
 
   return (
     <Grid.Column>
-      <Card>
-        {(finalized ? 'Finalized' : 'Current') + ' Block ' + blockNumber}
+      <div style={{display: 'inline'}}>
+        <b>{(finalized ? 'Finalized' : 'Current') + ' Block ' + blockNumber + ': '}</b>
         <Icon name='time' /> {blockNumberTimer}
-      </Card>
+      </div>
     </Grid.Column>
   );
 }

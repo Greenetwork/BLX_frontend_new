@@ -1,5 +1,5 @@
 import React, { useState, createRef } from 'react';
-import { Container, Dimmer, Loader, Grid, Segment, Sticky, Message } from 'semantic-ui-react';
+import { Container, Dimmer, Divider, Loader, Grid, Sticky, Message } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import { SubstrateContextProvider, useSubstrate } from './substrate-lib';
@@ -82,16 +82,18 @@ function Main () {
           {/* <Grid.Row stretched> */}
         </Grid>
       </Container>
-      <Segment inverted style={{ padding: '0em 5em' }}>
-        <Container>
-          <Grid.Row>
+      <Divider />
+      <Container>
+        <Grid stackable columns='equal'>
+          <Grid.Row stretched>
             <NodeInfo />
             <Metadata />
             <BlockNumber />
             <BlockNumber finalized />
           </Grid.Row>
-        </Container>
-      </Segment>
+        </Grid>
+      </Container>
+
       <DeveloperConsole />
     </div>
   );

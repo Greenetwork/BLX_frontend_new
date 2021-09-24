@@ -97,7 +97,6 @@ function Main (props) {
             }}
             value={accountSelected}
           />
-          <BalanceAnnotation accountSelected={accountSelected} />
         </Menu.Menu>
       </Container>
     </Menu>
