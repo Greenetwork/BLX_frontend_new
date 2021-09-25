@@ -50,23 +50,24 @@ function Main (props) {
         <Grid.Column width={4}>
           <h1>Farm Plot Search</h1>
           <Form onSubmit={handleSubmit}>
-            <Grid>
-              <Grid.Column floated='left' width={8}>
-                <Button type='submit' style={{width: '100%'}}>Search</Button>
-              </Grid.Column>
-              <Grid.Column floated='right' width={8}>
-                <ApnConfirmer style={{width: '100%'}} key={ apn } apnData={ apnData } {...props} />
-              </Grid.Column>
-            </Grid>
             <Form.Field>
               <Input
-                placeholder='APN Value'
+                placeholder='Assessor Parcel Number (APN)'
                 fluid
                 type='text'
+                style={{paddingBottom: '10px'}}
                 state={ apn }
                 value={ apn }
                 onChange={ apnChange }
               />
+              <Grid>
+                <Grid.Column floated='left' width={8}>
+                  <Button type='submit' style={{width: '100%'}}>Search</Button>
+                </Grid.Column>
+                <Grid.Column floated='right' width={8}>
+                  <ApnConfirmer style={{width: '100%'}} key={ apn } apnData={ apnData } {...props} />
+                </Grid.Column>
+              </Grid>
             </Form.Field>
           </Form>
         </Grid.Column>

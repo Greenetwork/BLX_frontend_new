@@ -194,7 +194,7 @@ function Main (props) {
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
-                    Parcel APN
+                    Assessor Parcel Number (APN)
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['apn'] }
