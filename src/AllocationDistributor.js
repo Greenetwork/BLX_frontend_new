@@ -26,7 +26,12 @@ function Main (props) {
         <TxButton
           label='Distribute Allocation'
           type='SIGNED-TX'
-          color='grey'
+          color='blue'
+          style={{
+          position: 'absolute',
+          right: 1,
+          top: 1,
+          }}
           setStatus={setStatus}
           attrs={{
             palletRpc: 'allocator',
