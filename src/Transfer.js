@@ -14,7 +14,7 @@ export default function Main (props) {
 
   return (
     <Grid.Column width={8}>
-      <h1>Transfer</h1>
+      <h1>Water Transfer</h1>
       <Form>
         <Form.Field>
           <Input
