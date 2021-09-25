@@ -186,7 +186,7 @@ function Main (props) {
             <Table celled>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>Key</Table.HeaderCell>
+                  <Table.HeaderCell> </Table.HeaderCell>
                   <Table.HeaderCell>Value</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -194,7 +194,7 @@ function Main (props) {
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
-                    apn
+                    Parcel APN
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['apn'] }
@@ -202,7 +202,7 @@ function Main (props) {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    agency_name
+                    Water Agency / Irrigation District
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['agency_name'] }
@@ -210,7 +210,15 @@ function Main (props) {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    acres
+                    Crop Type
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['crop2016'] }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Parcel Acreage
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['acres'] }
@@ -218,7 +226,7 @@ function Main (props) {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    county
+                    County
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['county'] }
