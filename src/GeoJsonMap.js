@@ -181,7 +181,7 @@ function Main (props) {
           <MapContainer center={position} zoom={12} style={{minHeight: '44rem', width: '100%'}}>
             <ApnMap mapCenter={mapCenter} mapZoom={mapZoom} mapBounds={mapBounds} parcelInfo={parcelInfo} />
           </MapContainer>
-          <h1>APN Results</h1>
+          <h1>Land Parcel Data</h1>
           <div style={{width: '100%', minHeight: '10rem'}}>
             <Table celled>
               <Table.Header>
