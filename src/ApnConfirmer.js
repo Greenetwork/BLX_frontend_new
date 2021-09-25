@@ -33,6 +33,9 @@ function Main (props) {
         label='Claim APN'
         type='SIGNED-TX'
         color='blue'
+        style={{
+        padding: '10px',
+        }}
         setStatus={setStatus}
         attrs={{
           palletRpc: 'claimer',
