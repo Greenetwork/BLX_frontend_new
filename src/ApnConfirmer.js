@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Button, Grid, Modal } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
 import { encodeApn } from './helpers.js';
 
@@ -14,8 +14,13 @@ function Main (props) {
   const apnData = props.apnData;
   // Note: setStatus is required by TxButton
   const [status, setStatus] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const [inputParams, setInputParams] = useState([...initInputParams]);
+
+  const openSuccessModal = function () {
+    setOpen(true);
+  };
 
   useEffect(function () {
     if (!apnData) return;
@@ -34,6 +39,7 @@ function Main (props) {
         type='SIGNED-TX'
         color='blue'
         setStatus={setStatus}
+        afterSubmit={openSuccessModal}
         attrs={{
           palletRpc: 'claimer',
           callable: 'createApnAccount',
@@ -49,6 +55,22 @@ function Main (props) {
         {...props}
       />
       : null }
+
+      <Modal
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        <Modal.Header>APN has been claimed</Modal.Header>
+        <Modal.Actions>
+          <Button
+            content="OK"
+            labelPosition='right'
+            icon='checkmark'
+            onClick={() => setOpen(false)}
+            positive
+          />
+        </Modal.Actions>
+      </Modal>
     </span>
   );
 }
