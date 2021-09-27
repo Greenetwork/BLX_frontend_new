@@ -256,6 +256,7 @@ function Main (props) {
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <h1>Water Allocation</h1>
           <ApnTable
             apnStatusList={apnStatusList}
             isRegulator={isRegulator}
