@@ -17,7 +17,7 @@ export function encodeApnHuman(value) {
 }
 
 export function encodeApn(value) {
-  if (value === void 0) value = '';
+  if (value === void 0 || value === null) value = '';
   // convert user input string to all characters that can be base64 encoded
   const codeUnits = new Uint8Array(value.length);
   for (let i = 0; i < codeUnits.length; i++) {

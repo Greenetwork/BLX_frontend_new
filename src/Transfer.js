@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Grid, Label, Icon } from 'semantic-ui-react';
 import { TxButton } from './substrate-lib/components';
+import { encodeApn } from './helpers.js';
+
 
 export default function Main (props) {
   const [status, setStatus] = useState(null);
@@ -10,12 +12,32 @@ export default function Main (props) {
   const onChange = (_, data) =>
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
 
-  const { addressTo, amount } = formState;
+  const [addressFromEncoded, setAddressFromEncoded] = useState('');
+  const [addressToEncoded, setAddressToEncoded] = useState('');
+  useEffect(() => {
+    setAddressFromEncoded(encodeApn(addressFrom));
+  }, [addressFrom]);
+
+  useEffect(() => {
+    setAddressToEncoded(encodeApn(addressTo));
+  }, [addressTo]);
+
+  const { addressFrom, addressTo, amount } = formState;
 
   return (
     <Grid.Column width={8}>
       <h1>Water Transfer</h1>
       <Form>
+        <Form.Field>
+          <Input
+            fluid
+            label='From'
+            type='text'
+            placeholder='address'
+            state='addressFrom'
+            onChange={onChange}
+          />
+        </Form.Field>
         <Form.Field>
           <Input
             fluid
@@ -42,10 +64,10 @@ export default function Main (props) {
             type='SIGNED-TX'
             setStatus={setStatus}
             attrs={{
-              palletRpc: 'balances',
-              callable: 'transfer',
-              inputParams: [addressTo, amount],
-              paramFields: [true, true]
+              palletRpc: 'allocator',
+              callable: 'tradeTokens',
+              inputParams: ['0', addressFromEncoded, addressToEncoded, amount],
+              paramFields: [true, true, true, true]
             }}
           />
         </Form.Field>
