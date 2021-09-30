@@ -6,7 +6,7 @@ import { encodeApn } from './helpers.js';
 
 export default function Main (props) {
   const [status, setStatus] = useState(null);
-  const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
+  const [formState, setFormState] = useState({ addressFrom:null, addressTo: null, amount: 0 });
   const { accountPair } = props;
 
   const onChange = (_, data) =>
@@ -66,8 +66,19 @@ export default function Main (props) {
             attrs={{
               palletRpc: 'allocator',
               callable: 'tradeTokens',
-              inputParams: ['0', addressFromEncoded, addressToEncoded, amount],
-              paramFields: [true, true, true, true]
+              inputParams: [
+                '0', 
+                {type: 'Source', value: addressFrom && encodeApn(addressFrom)}, 
+                {type: 'Source', value: addressTo && encodeApn(addressTo)}, 
+                amount
+              ],
+              interxType: 'EXTRINSIC',
+              paramFields: [
+                {name: 'assetID', type: 'AssetId'},
+                {name: 'fromapn', type: 'Source'},
+                {name: 'toapn', type: 'Source'},
+                {name: 'amt', type: 'Balance1'}
+              ]
             }}
           />
         </Form.Field>

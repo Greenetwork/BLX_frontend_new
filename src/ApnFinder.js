@@ -48,7 +48,7 @@ function Main (props) {
     return (
       <Grid.Row width={8}>
         <Grid.Column width={4}>
-          <h1>Farm Plot Search</h1>
+          <h1>APN Search</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Field>
               <Input
