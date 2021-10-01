@@ -9,18 +9,14 @@ export default function Main (props) {
   const [formState, setFormState] = useState({ addressTo: null, amount: 0 });
   const { accountPair } = props;
 
-  const onChange = (_, data) =>
+  const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
+    setAddressFromEncoded(encodeApn(addressFrom));
+    setAddressToEncoded(encodeApn(addressTo));
+  };
 
   const [addressFromEncoded, setAddressFromEncoded] = useState('');
   const [addressToEncoded, setAddressToEncoded] = useState('');
-  useEffect(() => {
-    setAddressFromEncoded(encodeApn(addressFrom));
-  }, [addressFrom]);
-
-  useEffect(() => {
-    setAddressToEncoded(encodeApn(addressTo));
-  }, [addressTo]);
 
   const { addressFrom, addressTo, amount } = formState;
 
