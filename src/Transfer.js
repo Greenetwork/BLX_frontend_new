@@ -6,13 +6,13 @@ import { encodeApn } from './helpers.js';
 
 export default function Main (props) {
   const [status, setStatus] = useState(null);
-  const [formState, setFormState] = useState({ addressFrom:null, addressTo: null, amount: 0 });
+  const [formState, setFormState] = useState({ addressFrom: null, addressTo: null, amount: 0 });
   const { accountPair } = props;
 
   const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
-    setAddressFromEncoded(encodeApn(addressFrom));
-    setAddressToEncoded(encodeApn(addressTo));
+    setAddressFromEncoded(encodeApn(addressFrom, true));
+    setAddressToEncoded(encodeApn(addressTo, true));
   };
 
   const [addressFromEncoded, setAddressFromEncoded] = useState('');
@@ -64,8 +64,8 @@ export default function Main (props) {
               callable: 'tradeTokens',
               inputParams: [
                 '0', 
-                {type: 'Source', value: addressFrom && encodeApn(addressFrom)}, 
-                {type: 'Source', value: addressTo && encodeApn(addressTo)}, 
+                {type: 'Source', value: addressFromEncoded}, 
+                {type: 'Source', value: addressToEncoded}, 
                 amount
               ],
               interxType: 'EXTRINSIC',

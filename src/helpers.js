@@ -16,7 +16,7 @@ export function encodeApnHuman(value) {
   return human;
 }
 
-export function encodeApn(value) {
+export function encodeApn(value, prefix) {
   if (value === void 0 || value === null) value = '';
   // convert user input string to all characters that can be base64 encoded
   const codeUnits = new Uint8Array(value.length);
@@ -29,10 +29,23 @@ export function encodeApn(value) {
   const len = base64.length;
   const padding = 32 - len;
   let bytes = new Uint8Array(32);
+
   for (let i = 0; i < 32; i++) {
     if (i < padding) continue;
     const j = (padding - i) * -1;
     bytes[i] = base64.charCodeAt(j);
+  }
+
+  if (prefix) {
+    // TODO: this is address32 it think?
+    let type = '2';
+    let typeBytes = new Uint8Array(33);
+    typeBytes[0] = 2;
+    for (let i = 0; i < 32; i++) {
+      typeBytes[i + 1] = bytes[i];
+    }
+
+    return typeBytes;
   }
   return bytes;
 }
