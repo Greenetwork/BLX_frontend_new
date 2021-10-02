@@ -40,7 +40,7 @@ export function encodeApn(value, prefix) {
     // TODO: this is address32 it think?
     let type = '2';
     let typeBytes = new Uint8Array(33);
-    typeBytes[0] = 2;
+    typeBytes[0] = 3;
     for (let i = 0; i < 32; i++) {
       typeBytes[i + 1] = bytes[i];
     }
