@@ -71,7 +71,7 @@ function Main () {
               <Events />
             </Grid.Row>
           </div>
-          <div style={{width: '100%'}}>
+          {/* <div style={{width: '100%'}}>
             <Grid.Row>
               <Interactor accountPair={accountPair} />
             </Grid.Row>
@@ -79,7 +79,7 @@ function Main () {
           <Grid.Row>
             <TemplateModule accountPair={accountPair} />
           </Grid.Row>
-          {/* <Grid.Row stretched> */}
+          <Grid.Row stretched> */}
         </Grid>
       </Container>
       <Divider />
