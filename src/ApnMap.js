@@ -22,28 +22,29 @@ function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
     return {
       color: '#1f2021',
       weight: 1,
-      fillOpacity: 1,
+      fillOpacity: 0.5,
       fillColor: feature.properties && feature.properties.owner ? '#2450ff' : '#999999',
     };
   }
 
   function onEachFeature(feature: Object, layer: Object) {
-    const popupContent = `<p>ApnToken Information</p>
-    <pre>Assessor's Parcel Number: <br />${feature.properties.apn}</pre>
-    <pre>Shape Area: <br />${feature.properties.shape_area}</pre>
-    <pre>Agency Name: <br />${feature.properties.agency_name}</pre>
-    <pre>Agency Unique ID: <br />${feature.properties.agency_unique_id}</pre>
-    <pre>County: <br />${feature.properties.county}</pre>
-    <pre>Acres: <br />${feature.properties.acres}</pre>
-    <pre>Crop 2016: <br />${feature.properties.crop2016}</pre>`
+    const popupContent = `
+    <div style="width:1000px;overflow-wrap:auto;white-space: nowrap;">
+    <b>Basin Logix Plot Information</b>
+    <pre><b>APN</b>: <br />${feature.properties.apn}</pre>
+    <pre><b>Crop</b>: <br />${feature.properties.crop2016}</pre>
+    <pre><b>GSA</b>: <br />${feature.properties.agency_name}</pre>
+    <pre><b>County</b>: <br />${feature.properties.county}</pre>
+    <pre><b>Area Acres</b>: <br />${feature.properties.acres}</pre>
+    <pre><b>Geometric Area</b>: <br />${feature.properties.shape_area}</pre>`
     layer.bindPopup(popupContent);
   }
 
   return (
     <div>
       <TileLayer
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='2021 Google Maps'
+        url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
       />
       <GeoJSON
         key={triggerGeoReRender}
