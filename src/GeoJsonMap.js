@@ -1,5 +1,5 @@
 // @flow
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MapContainer } from 'react-leaflet';
 import { Grid, Radio, Table } from 'semantic-ui-react';
 
@@ -17,6 +17,9 @@ function Main (props) {
   const { api } = useSubstrate();
 
   const [apnData, setApnData] = useState({});
+  const [apnData1, setApnData1] = useState({});
+  const [apnData2, setApnData2] = useState({});
+  const [apnData3, setApnData3] = useState({});
   const [mapCenter, setMapCenter] = useState({lat: 37.975438, lng: -121.274070});
   const [mapZoom, setMapZoom] = useState(12);
   const [mapBounds, setMapBounds] = useState([[37.995438, -121.174070], [37.905438, -121.294070]]);
@@ -69,11 +72,73 @@ function Main (props) {
 
   };
 
+  const updateParcels = function (data) {
+
+    // show data in table below map
+    setApnData(data[0] || {});
+    setApnData1(data[1] || {});
+    setApnData2(data[2] || {});
+    setApnData3(data[3] || {});
+
+    const features = [];
+    let maxLat = -1 * Number.MAX_VALUE;
+    let minLat = Number.MAX_VALUE
+    let maxLon = -1 * Number.MAX_VALUE;
+    let minLon = Number.MAX_VALUE;
+
+    for (let i = 0; i < data.length; i++) {
+      const claim = data[i];
+      const coords = parsePolygon(claim.geometry);
+      for (let j = 0; j < coords.length; j++) {
+        const lon = coords[j][0];
+        const lat = coords[j][1];
+
+        if (lon > maxLon) maxLon = lon;
+        if (lon < minLon) minLon = lon;
+        if (lat > maxLat) maxLat = lat;
+        if (lat < minLat) minLat = lat;
+      }
+
+      features.push({
+        type: 'Feature',
+        properties: claim,
+        geometry: {
+          type: 'Polygon',
+          coordinates: [coords]
+        }
+      });
+    }
+
+    const bounds = (maxLat < -90 || maxLon < -180 || minLat > 90 || minLon > 180) ?
+    [
+      [37.907506579631, -121.223565024536],
+      [37.9296422893884, -121.038149460093]
+    ] :
+    [
+      [maxLat, maxLon],
+      [minLat, minLon]
+    ];
+
+    setMapBounds(bounds);
+
+    setParcelInfo(parcelInfo => {
+      return {...parcelInfo, features};
+    });
+
+
+  };
+
   const refreshApnList = async function (data) {
     //console.log(JSON.stringify(data, null, 4));
 
     // TODO: Not sure is we need this in state
     setApnList(data);
+
+    // // show data in table below map, HACK
+    // setApnData(data[0] || {});
+    // setApnData1(data[1] || {});
+    // setApnData2(data[2] || {});
+    // setApnData3(data[3] || {});
 
     const features = [];
     let maxLat = -1 * Number.MAX_VALUE;
@@ -184,12 +249,13 @@ function Main (props) {
           <h1>Land Parcel Data</h1>
           <div style={{width: '100%', minHeight: '10rem'}}>
             <Table celled>
-              <Table.Header>
+              {/* <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell> </Table.HeaderCell>
                   <Table.HeaderCell>Value</Table.HeaderCell>
                 </Table.Row>
-              </Table.Header>
+              </Table.Header> */}
+{/* HACK in lieu of dynamic table */}
 
               <Table.Body>
                 <Table.Row>
@@ -199,37 +265,86 @@ function Main (props) {
                   <Table.Cell>
                     { apnData['apn'] }
                   </Table.Cell>
-                </Table.Row>
-                <Table.Row>
                   <Table.Cell>
-                    Water Agency / Irrigation District
+                    { apnData1['apn'] }
                   </Table.Cell>
                   <Table.Cell>
-                    { apnData['agency_name'] }
+                    { apnData2['apn'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData3['apn'] }
                   </Table.Cell>
                 </Table.Row>
+            
                 <Table.Row>
                   <Table.Cell>
-                    Crop Type
+                    Crop
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['crop2016'] }
                   </Table.Cell>
+                  <Table.Cell>
+                    { apnData1['crop2016'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData2['crop2016'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData3['crop2016'] }
+                  </Table.Cell>
                 </Table.Row>
+
                 <Table.Row>
                   <Table.Cell>
-                    Parcel Acreage
+                    Groundwater Sustainability Agency
                   </Table.Cell>
                   <Table.Cell>
-                    { apnData['acres'] }
+                    { apnData['agency_name'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData1['agency_name'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData2['agency_name'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData3['agency_name'] }
                   </Table.Cell>
                 </Table.Row>
+
                 <Table.Row>
                   <Table.Cell>
                     County
                   </Table.Cell>
                   <Table.Cell>
                     { apnData['county'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData1['county'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData2['county'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData3['county'] }
+                  </Table.Cell>
+                </Table.Row>
+
+                <Table.Row>
+                  <Table.Cell>
+                    Area Acres
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData['acres'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData1['acres'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData2['acres'] }
+                  </Table.Cell>
+                  <Table.Cell>
+                    { apnData3['acres'] }
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>
@@ -263,7 +378,8 @@ function Main (props) {
             setMapBounds={setMapBounds}
             {...props}
           ></ApnTable>
-          <ApnFinder apnFound={ updateParcel } {...props} />
+          <ApnFinder apnFound={ updateParcels } {...props} />
+          {/* <ApnFinder apnsFound={ refreshApnList } {...props} /> */}
 
           <div style={{ marginTop: '2rem' }}>
             <Transfer {...props} />

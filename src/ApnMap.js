@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TileLayer, GeoJSON, useMap } from 'react-leaflet';
+import { TileLayer, GeoJSON, useMap, Popup } from 'react-leaflet';
 
 
 function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
@@ -22,28 +22,29 @@ function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
     return {
       color: '#1f2021',
       weight: 1,
-      fillOpacity: 1,
+      fillOpacity: 0.65,
       fillColor: feature.properties && feature.properties.owner ? '#2450ff' : '#999999',
     };
   }
 
   function onEachFeature(feature: Object, layer: Object) {
-    const popupContent = `<p>ApnToken Information</p>
-    <pre>Assessor's Parcel Number: <br />${feature.properties.apn}</pre>
-    <pre>Shape Area: <br />${feature.properties.shape_area}</pre>
-    <pre>Agency Name: <br />${feature.properties.agency_name}</pre>
-    <pre>Agency Unique ID: <br />${feature.properties.agency_unique_id}</pre>
-    <pre>County: <br />${feature.properties.county}</pre>
-    <pre>Acres: <br />${feature.properties.acres}</pre>
-    <pre>Crop 2016: <br />${feature.properties.crop2016}</pre>`
-    layer.bindPopup(popupContent);
+    const popupContent = `
+    <div style="overflow-wrap:auto;white-space: nowrap;">
+    <h3>APN Information</h3>
+    <pre><b>APN</b>: <br />${feature.properties.apn}</pre>
+    <pre><b>Crop</b>: <br />${feature.properties.crop2016}</pre>
+    <pre><b>Groundwater Sustainability Agency</b>: <br />${feature.properties.agency_name}</pre>
+    <pre><b>County</b>: <br />${feature.properties.county}</pre>
+    <pre><b>Area Acres</b>: <br />${feature.properties.acres}</pre>
+    <pre><b>Geometric Area</b>: <br />${feature.properties.shape_area}</pre>`
+    layer.bindPopup(popupContent, { maxWidth: "auto"});
   }
 
   return (
     <div>
       <TileLayer
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='2021 Google Maps'
+        url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
       />
       <GeoJSON
         key={triggerGeoReRender}
