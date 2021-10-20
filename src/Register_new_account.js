@@ -8,7 +8,6 @@ export default function Main (props) {
   const [status, setStatus] = useState(null);
   const [formState, setFormState] = useState({ addressFrom: null, addressTo: null, amount: 0 });
   const { accountPair } = props;
-  // const { initialAddress } = props;
 
   const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
@@ -17,11 +16,6 @@ export default function Main (props) {
   };
 
   const { apiState, keyring, keyringState, apiError } = useSubstrate();
-
-  const [addressFromEncoded, setAddressFromEncoded] = useState('');
-  const [addressToEncoded, setAddressToEncoded] = useState('');
-
-  const { addressFrom, addressTo, amount } = formState;
 
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
@@ -44,35 +38,6 @@ export default function Main (props) {
     <Grid.Column width={8}>
       <h1>Register New Account</h1>
       <Form>
-        {/* <Form.Field>
-          <Input
-            fluid
-            label='From'
-            type='text'
-            placeholder='address'
-            state='addressFrom'
-            onChange={onChange}
-          />
-        </Form.Field> */}
-        <Form.Field>
-          <Input
-            fluid
-            label='To'
-            type='text'
-            placeholder='address'
-            state='addressTo'
-            onChange={onChange}
-          />
-        </Form.Field>
-        {/* <Form.Field>
-          <Input
-            fluid
-            label='Amount'
-            type='number'
-            state='amount'
-            onChange={onChange}
-          />
-        </Form.Field> */}
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton
             accountPair={accountPair1}
@@ -83,8 +48,8 @@ export default function Main (props) {
               palletRpc: 'balances',
               callable: 'transfer',
               inputParams: [
-                addressTo, 
-                10000
+                accountPair.address, 
+                100000000000
               ],
               interxType: 'EXTRINSIC',
               paramFields: [
