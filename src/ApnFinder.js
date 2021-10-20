@@ -10,11 +10,19 @@ function Main (props) {
     const [apnData, setApnData] = useState({});
 
     const handleSubmit = async function () {
-      const res = await fetch('/apn/' + apn);
+
+      //check the single apn search to return null to fire error
+      const res1 = await fetch('/apn/' + apn);
+      const data1 = await res1.json();
+
+      const res = await fetch('/apn/list/' + apn);
       const data = await res.json();
 
-      if (res.ok && data) {
-        const apnEnc = '0x' + encodeApnHuman(data.apn_chr);
+      if (res.ok && data
+         && res1.ok && data1 //check the single apn search to return null to fire error
+
+         ) {
+        const apnEnc = '0x' + encodeApnHuman(data[0].apn_chr);
 
         let delegateId;
         try {
@@ -31,7 +39,7 @@ function Main (props) {
 
         if (delegateId === props.accountAddress) data.owner = true;
 
-        setApnData(data);
+        setApnData(data[0]);
 
         if (typeof props.apnFound === 'function') {
           props.apnFound(data);
