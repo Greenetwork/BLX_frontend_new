@@ -109,7 +109,7 @@ function Main (props) {
       });
     }
 
-    const bounds = (maxLat < -180 || maxLon < -360 || minLat > 180 || minLon > 360) ?
+    const bounds = (maxLat < -90 || maxLon < -180 || minLat > 90 || minLon > 180) ?
     [
       [37.907506579631, -121.223565024536],
       [37.9296422893884, -121.038149460093]
