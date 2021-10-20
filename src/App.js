@@ -19,6 +19,8 @@ import { ApnTokenInfo } from './ApnTokenInfo';
 import LeafletMap from './LeafletMap';
 import GeoJsonMap from './GeoJsonMap';
 
+import Register_new_account from './Register_new_account';
+
 
 function Main () {
   const [accountAddress, setAccountAddress] = useState(null);
@@ -71,7 +73,7 @@ function Main () {
               <Events />
             </Grid.Row>
           </div>
-          {/* <div style={{width: '100%'}}>
+          <div style={{width: '100%'}}>
             <Grid.Row>
               <Interactor accountPair={accountPair} />
             </Grid.Row>
@@ -79,7 +81,13 @@ function Main () {
           <Grid.Row>
             <TemplateModule accountPair={accountPair} />
           </Grid.Row>
-          <Grid.Row stretched> */}
+          <Grid.Row>
+            <Register_new_account accountPair={accountPair} />
+          </Grid.Row>
+          {/* <Grid.Row stretched> */}
+          <Grid.Row>
+            <Balances accountPair={accountPair} />
+          </Grid.Row>
         </Grid>
       </Container>
       <Divider />
