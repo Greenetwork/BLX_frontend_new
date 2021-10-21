@@ -49,7 +49,7 @@ export default function Main (props) {
               callable: 'transfer',
               inputParams: [
                 accountPair.address, 
-                100000000000
+                1000000000000000
               ],
               interxType: 'EXTRINSIC',
               paramFields: [
