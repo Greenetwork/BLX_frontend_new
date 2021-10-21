@@ -8,6 +8,8 @@ export default function Main (props) {
   const [status, setStatus] = useState(null);
   const [formState, setFormState] = useState({ addressFrom: null, addressTo: null, amount: 0 });
   const { accountPair } = props;
+  // const { setAccountAddress } = props;
+
 
   const onChange = (_, data) => {
     setFormState(prev => ({ ...prev, [data.state]: data.value }));
@@ -34,6 +36,12 @@ export default function Main (props) {
   keyringState === 'READY' &&
   keyring.getPair(initialAddress);
 
+  // useEffect(() => {
+  //   setAccountAddress(initialAddress);
+  //   setAccountSelected(initialAddress);
+  // }, [setAccountAddress, initialAddress]);
+
+  if(!accountPair) return null;
   return (
     <Grid.Column width={8}>
       <h1>Register New Account</h1>
@@ -48,7 +56,7 @@ export default function Main (props) {
               palletRpc: 'balances',
               callable: 'transfer',
               inputParams: [
-                accountPair.address, 
+                accountPair.address,  // issue here with accountPair being null on init. it doesnt like this. 
                 1000000000000000
               ],
               interxType: 'EXTRINSIC',
