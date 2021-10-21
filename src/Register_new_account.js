@@ -44,7 +44,7 @@ export default function Main (props) {
   if(!accountPair) return null;
   return (
     <Grid.Column width={8}>
-      <h1>Register New Account</h1>
+      <h1>Register Injected Account on BLX</h1>
       <Form>
         <Form.Field style={{ textAlign: 'center' }}>
           <TxButton

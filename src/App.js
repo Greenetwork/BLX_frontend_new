@@ -73,21 +73,21 @@ function Main () {
               <Events />
             </Grid.Row>
           </div>
-          <div style={{width: '100%'}}>
+          {/* <div style={{width: '100%'}}>
             <Grid.Row>
               <Interactor accountPair={accountPair} />
             </Grid.Row>
           </div>
           <Grid.Row>
             <TemplateModule accountPair={accountPair} />
-          </Grid.Row>
+          </Grid.Row> */}
           <Grid.Row>
             <Register_new_account accountPair={accountPair} />
           </Grid.Row>
           {/* <Grid.Row stretched> */}
-          <Grid.Row>
+          {/* <Grid.Row>
             <Balances accountPair={accountPair} />
-          </Grid.Row>
+          </Grid.Row> */}
         </Grid>
       </Container>
       <Divider />
