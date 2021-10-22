@@ -35,6 +35,7 @@ function Main (props) {
     setAccountSelected(initialAddress);
   }, [setAccountAddress, initialAddress]);
 
+
   const onChange = address => {
     // Update state with new account address
     setAccountAddress(address);
