@@ -36,11 +36,6 @@ export default function Main (props) {
   keyringState === 'READY' &&
   keyring.getPair(initialAddress);
 
-  // useEffect(() => {
-  //   setAccountAddress(initialAddress);
-  //   setAccountSelected(initialAddress);
-  // }, [setAccountAddress, initialAddress]);
-
   if(!accountPair) return null;
   return (
     <Grid.Column width={8}>

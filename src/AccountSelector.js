@@ -18,9 +18,6 @@ function Main (props) {
   const { setAccountAddress } = props;
   const [accountSelected, setAccountSelected] = useState('');
 
-  // const { setAccountAddress_inital } = props;
-  // const [accountSelected_inital, setAccountSelected_inital] = useState('');
-
   // Get the list of accounts we possess the private key for
   const keyringOptions = keyring.getPairs().map(account => ({
     key: account.address,
@@ -37,11 +34,6 @@ function Main (props) {
     setAccountAddress(initialAddress);
     setAccountSelected(initialAddress);
   }, [setAccountAddress, initialAddress]);
-
-  // useEffect(() => {
-  //   setAccountAddress_inital(initialAddress);
-  //   setAccountSelected_inital(initialAddress);
-  // }, [setAccountAddress, initialAddress]);
 
 
   const onChange = address => {
