@@ -48,7 +48,7 @@ function Main (props) {
         props.apnListFound(data.map(dbData => {
           const owner = ownerMap.find(owner => {
             // use `props.accountAddress` to find the apnList we want to query, unless we are using regulator view
-            return (props.isRegulator || owner.owner === props.accountAddress) && owner.apn === dbData.apn;
+            return (props.isRegulator || owner.owner === props.accountAddress) && owner.apn === dbData.apn.toString();
           });
           if (owner) dbData.owner = owner;
 
