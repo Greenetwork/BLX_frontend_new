@@ -45,6 +45,7 @@ function Main({ mapCenter, mapZoom, mapBounds, parcelInfo }) {
       <TileLayer
         attribution='2021 Google Maps'
         url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+        opacity={0.7}
       />
       <GeoJSON
         key={triggerGeoReRender}
