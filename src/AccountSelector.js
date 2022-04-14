@@ -47,10 +47,10 @@ function Main (props) {
       attached='top'
       tabular
       style={{
-        backgroundColor: '#fff',
-        borderColor: '#fff',
-        paddingTop: '1em',
-        paddingBottom: '1em'
+        backgroundColor: '#fdf7f2',
+        borderColor: '#000000',
+        paddingTop: '0.5em',
+        paddingBottom: '0.5em'
       }}
     >
       <Container>
@@ -61,7 +61,7 @@ function Main (props) {
             href='https://basinlogix.com'
           >
             {/* <Image src={`${process.env.PUBLIC_URL}/assets/substrate-logo.png`} size='mini' /> */}
-            <Image src={`${process.env.PUBLIC_URL}/assets/basinlogix_crop_logo.jpg`} size='medium' />
+            <Image src={`${process.env.PUBLIC_URL}/assets/basinlogix_full_logo_transparent1.png`} size='medium' />
           </a>
 
         </Menu.Menu>

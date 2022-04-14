@@ -56,6 +56,7 @@ function Main () {
   //const position = [this.state.lat, this.state.lng]
   const position = [51.505, -0.09]
 
+document.body.style = 'background: #fdf7f2;';
 
 
   return (

@@ -22,7 +22,7 @@ function Main (props) {
          && res1.ok && data1 //check the single apn search to return null to fire error
 
          ) {
-        const apnEnc = '0x' + encodeApnHuman(data[0].apn_chr);
+        const apnEnc = '0x' + encodeApnHuman(data[0].apn);
 
         let delegateId;
         try {
